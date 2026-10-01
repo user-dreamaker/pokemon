@@ -1,0 +1,593 @@
+
+/* these mess up vbulletin */
+
+a:link, a:visited {
+    color: var(--link, #00f);
+    border: none;
+    white-space: nowrap;
+}
+
+a:link:hover, a:visited:hover {
+    background: none;
+}
+
+a.nohover:link:hover, a.nohover:visited:hover {
+    background: transparent;
+}
+
+/* Headers */
+
+h1 {
+    font: bold 1.75em "Trebuchet MS";
+    line-height: 23px;
+    background: url(favicon.png) no-repeat left;
+    padding: 0 0 0 35px;
+    letter-spacing: .05em;
+    margin: 1em 0;
+}
+
+h2 {
+    font: bold 1.7em "Trebuchet MS";
+    margin: .7em 0 ;
+}
+
+h3 {
+	font-size: 1.35em;
+}
+
+h4 {
+	font-size: 1.15em;
+}
+
+h5 {
+
+}
+
+h6 {
+
+}
+
+/* Lists */
+
+dt {
+    padding: 0;
+    margin: 1em 0 0 0;
+    font-weight: bold;
+}
+
+dd {
+    padding: .15em 0 0 0;
+    margin-left: .7em;
+}
+
+ul {
+    padding-left: 1em;
+}
+
+/* .long_list is for pages where the primary content is a list - like a rules page */
+.long_list li {
+    padding-bottom: 1em;
+}
+
+/* Misc Elements */
+
+p {
+    margin: 0 0 1em 0;
+}
+
+var, code, kbd, pre {
+    font-family: "Courier New", monospaced;
+    font-size: 1em; /* IE likes to make these smaller */
+}
+
+code {
+    display: block;
+    white-space: pre;
+    padding: .3em;
+    background: var(--code-bg, #f6f6f6);
+    border: 1px solid var(--soft-border, #ccc);
+}
+
+/* Handy styles  */
+
+/* Makes any random text smaller */
+.s {
+    font-size: 0.846em;
+}
+
+/* No wrappin */
+.n {
+    white-space: nowrap;
+}
+
+/* Used for last-modification times */
+.modified {
+    font-size: 0.846em;
+    font-style: italic;
+    text-align: right;
+}
+
+.author {
+    margin-top:-1.5em;
+    padding:0 0 1em 35px;
+    font-style: italic;
+}
+
+/* Used for damage calculation blocks */
+ul.damage_calculation {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 2em;
+    text-indent: -1em;
+}
+
+.alt2 {
+    background: var(--panel, #e1e4f2);
+    color: var(--fg, #000000);
+}
+
+/* Front Page  */
+
+/* Top welcome message */
+
+#front_top {
+    background: url(favicon.png) left center no-repeat;
+    padding: 0 0 0 26px;
+    margin-bottom: 1.5em;
+}
+
+/* Split pane - left is links, right is news */
+
+#front_splitter {
+
+}
+
+#front_links, #front_news {
+    vertical-align: top;
+}
+
+#front_links {
+    width: 415px;
+    padding-right: 1.5em;
+}
+
+/* Left pane - links and pictures  */
+
+#front_links dl {
+    padding: 0 0 0 160px; /* 160px is the size of the picture; move our text over to the right */
+    margin: 0;
+    min-height: 170px; /* Size of the image */
+    border: solid var(--line, #aaa);
+    border-width: 0 0 1px 0;
+}
+
+* html #front_links dl {
+    height: 170px;
+}
+
+#front_links dt {
+    height: 23px;
+    line-height: 23px;
+    background: url(favicon.png) left center no-repeat;
+    padding: 0 0 0 26px; /* 26px width of koffing */
+    margin: 1em 0 .3em 0;
+    font-size: 1.05em;
+}
+
+#front_links dd {
+    padding: 0;
+    margin: 0 0 1em 0;
+}
+
+#front_links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 .7em 0 ;
+}
+
+#front_links li {
+    padding-left: 20px;
+}
+
+#front_learn {
+    border-width: 1px 0 !important; /* Make the top have a border line */
+    background: url(front_learn.png)/*tpa=http://www.smogon.com/media/front_learn.png*/ left no-repeat;
+}
+
+#front_learn li {
+    background: url(bullet_red.png)/*tpa=http://www.smogon.com/media/bullet_red.png*/ no-repeat left;
+}
+
+#front_train_battle {
+    background: url(front_train_battle.png)/*tpa=http://www.smogon.com/media/front_train_battle.png*/ left no-repeat;
+}
+
+#front_train_battle li {
+    background: url(bullet_blue.png)/*tpa=http://www.smogon.com/media/bullet_blue.png*/ no-repeat left;
+}
+
+#front_participate {
+    background: url(front_participate.png)/*tpa=http://www.smogon.com/media/front_participate.png*/ left no-repeat;
+}
+
+#front_participate li {
+    background: url(bullet_green.png)/*tpa=http://www.smogon.com/media/bullet_green.png*/ no-repeat left;
+}
+
+/* Right pane, news */
+
+#front_news h1 {
+    position: relative;
+    padding: 0 0 0 53px;
+    background: url(news.png)/*tpa=http://www.smogon.com/media/news.png*/ no-repeat;
+    height: 24px;
+    line-height: 24px;
+}
+
+#front_news h2 {
+    margin:1em 0 0 0;
+}
+
+#front_news .modified {
+    text-align: left;
+    background: url(pencil.png)/*tpa=http://www.smogon.com/media/pencil.png*/ no-repeat left;
+    padding-left: 20px;
+    height: 16px;
+    line-height: 16px;
+    margin-bottom: 1em;
+}
+
+#front_news h2 a {
+    color: var(--fg, #000);
+    text-decoration: none;
+    white-space: normal;
+}
+
+#front_right_footer {
+    border-top: 1px solid var(--line, #aaa);
+    padding-top: .7em;
+    margin: 1em 0 0 0;
+}
+
+/* Standard Forms */
+
+p.legend { margin-bottom: 1em; }
+p.legend em { color: var(--danger, #c00); font-style: normal; }
+
+form fieldset {
+     margin: 0 0 .7em 0;
+     padding: .5em 0 0 1em;
+     border: solid var(--line, #aaa);
+     border-width: 1px 0 0 0;
+}
+
+form legend {
+    font-weight: bold;
+    color: var(--muted, #666);
+}
+
+form label {
+  white-space: nowrap;
+}
+
+form label em {
+    font-style: normal;
+    color: var(--danger, #c00);
+}
+
+table.form {
+    margin: 0;
+}
+
+table.form td, table.form th {
+  text-align: left;
+  vertical-align: top;
+  padding-bottom: .5em;
+}
+
+table.form th {
+  font-weight: normal;
+  width: 1px;
+  padding-right: 1em;
+  text-align: right;
+}
+
+/* Tables */
+
+table {
+    margin: 1em 0;
+    width: 100%;
+}
+
+table caption {
+    margin:0 0 .7em 0 ;
+    font-weight: bold;
+}
+
+/* Sortable style */
+
+table.sortable {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: solid var(--tbl-border, #000);
+    border-width: 1px;
+}
+
+table.sortable td, table.sortable th {
+    border: solid var(--tbl-border, #000);
+}
+
+table.sortable th {
+    border-width: 1px;
+    background: var(--th-bg, #6363b0);
+    color: var(--th-fg, #fff);
+    font-size: .846em;
+    text-align: left;
+    padding: .5em;
+    white-space: nowrap;
+}
+
+table.sortable td {
+    padding: .3em;
+    border-width: 1px 1px;
+}
+
+/* The .even/.odd stuff is for jQuery sorting - we don't use it. */
+table.sortable td, table.sortable tr.even td {
+    background: var(--row-even, #fff);
+}
+
+table.sortable .a td, table.sortable tr.odd td  {
+    background: var(--row-odd, #ccf);
+}
+
+/* jQuery Table Sorting */
+
+table.sortable tr .header {
+    background-image: url(bg.gif)/*tpa=http://www.smogon.com/media/bg.gif*/ ;
+    background-repeat: no-repeat ;
+    background-position: center right;
+    cursor: pointer;
+    padding-right: 20px;
+}
+
+table.sortable tr .headerSortUp {
+    background-image: url(asc.gif)/*tpa=http://www.smogon.com/media/asc.gif*/;
+}
+
+table.sortable thead tr .headerSortDown {
+    background-image: url(desc.gif)/*tpa=http://www.smogon.com/media/desc.gif*/;
+}
+
+/* Info Table Style */
+
+table.info {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table.info th {
+    background: url(infoheader.png)/*tpa=http://www.smogon.com/media/infoheader.png*/ repeat-x;
+    line-height: 25px;
+    text-align: left;
+    padding: 0 0 0 .7em;
+}
+
+table.info td {
+    vertical-align: top;
+    padding: .5em .7em;
+}
+
+/* Handy Table Styles */
+
+/*
+  Force width to be as small as possible.
+  Put it on the table header if possible.
+
+  Use .m if on a td, you'll probably want to keep it compact.
+*/
+
+table .min_width {
+    width: 0.01%;
+}
+
+/************************************
+Image styles
+************************************/
+
+div.image_caption {
+  margin: 2em;
+  font-weight: bold;
+  font-size: .846em;
+}
+
+div.image_caption img {
+  display: block;
+  margin-bottom: .7em;
+}
+
+img.right {
+    float: right;
+    padding: 1em 0 1em 1em;
+}
+
+/* Logins */
+
+#loginbox {
+    background: var(--panel, #dadaec);
+    padding: .3em .5em;
+    border-bottom: 1px solid var(--panel-line, #9696ca);
+    margin-bottom: 1em;
+}
+
+/* Success/Error indicators */
+
+ul.success, ul.error, ul.notice {
+    margin: 1em 0;
+    list-style: none;
+    padding: 5px 10px 5px 30px;
+}
+
+span.error, div.error, span.notice, div.notice {
+    font-size: .846em;
+    padding: 5px 10px 5px 30px;
+}
+
+/* Currently unused... do something with this */
+.success {
+    background: #8CFF66 url(success.png)/*tpa=http://www.smogon.com/media/success.png*/ no-repeat 5px;
+    padding: 5px 0 5px 25px;
+}
+
+ul.error {
+    background: #FF8C66 url(error.png)/*tpa=http://www.smogon.com/media/error.png*/ no-repeat 5px;
+}
+
+span.error, div.error {
+    background: url(error.png)/*tpa=http://www.smogon.com/media/error.png*/ no-repeat 5px;
+    color: var(--danger, #c00);
+}
+
+span.notice, div.notice {
+    background: url(notice.png)/*tpa=http://www.smogon.com/media/notice.png*/ no-repeat 5px;
+    color: var(--warn, #cc6600);
+}
+
+/* Boxes */
+
+.boxes {
+  width:55%;
+  border-spacing:0 .5em;
+}
+
+.boxes img {
+  margin-right: .5em;
+}
+
+.boxes td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.boxes dl {
+  margin: 0;
+}
+
+.boxes dt {
+  margin: 0;
+}
+
+.boxes .box1, .boxes .box2, .boxes .box3, .boxes .box4, .boxes .box5  {
+  text-align:left ;
+  padding: .7em;
+  border-style:solid;
+  border-width:3px;
+}
+
+.box1 {
+  background: #FFCCFF;
+  border-color: #FF99FF;
+}
+
+.box2 {
+  background: #CCE6FF;
+  border-color: #99CEFF;
+}
+
+.box3 {
+  background: #CEFF99;
+  border-color: #A9FF4D;
+}
+
+.box4 {
+  background: #FFC085;
+  border-color: #FFA552;
+}
+
+.box5 {
+  background: #FFFF99;
+  border-color: #E6E600;
+}
+
+/* Tabs */
+
+.tabs {
+   padding: .3em 0;
+   margin: 0;
+   border-bottom: 1px solid var(--tbl-border, #000);
+}
+
+.tabs li {
+    list-style: none;
+    margin: 0 0 0 .3em;
+    display: inline;
+}
+
+.tabs li a {
+    padding: .3em .5em;
+    border: 1px solid var(--line, #aaa);
+    border-bottom-color: var(--tbl-border, #000) !important;
+    background: var(--chip, #efefef);
+    text-decoration: none;
+    color: var(--link, #00c);
+}
+
+.tabs li a:hover {
+    background: none;
+    border-color: var(--muted, #dadada);
+}
+
+.tabs li strong {
+    padding: .3em .5em;
+    border: 1px solid var(--tbl-border, #000);
+    border-bottom: 1px solid white;
+}
+
+.tabs .tabspacer {
+    margin-left: 10em;
+}
+
+/* Autocomplete */
+
+.ac_results {
+    padding: 0;
+    background: var(--panel, #dadaec);
+    border: 1px solid var(--rule, #b8b8db);
+    overflow: hidden;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+    cursor: pointer;
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+
+.ac_loading {
+}
+
+.ac_over {
+	background-color: var(--rule, #b8b8db);
+}
+
+* html .ac_results iframe {
+	display:none;/*sorry for IE5*/
+	display:block;/*sorry for IE5*/
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	filter:mask();
+	width:3000px;
+	height:3000px;
+}

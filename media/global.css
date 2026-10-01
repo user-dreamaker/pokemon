@@ -1,0 +1,245 @@
+
+
+/************* global.css ***************
+
+CSS definitions essential to showing the skeleton of the main template.
+All other definitions should be relocated to page.css.
+
+****************************************/
+
+
+/* Base */
+
+
+html {
+    margin: 0;
+    padding: 0;
+    background: var(--frame, #6363b0) url(bg.png) repeat-x;
+}
+
+body {
+    font: 13px Verdana, sans-serif; /* See IE fixes below. */
+    color: var(--fg, #000);
+    background: var(--body-bg, #fff) url(bg_top.png) repeat-x;
+    padding: 5px 15px;
+    margin: 0 15px;
+    border-width: 0 1px;
+}
+
+/* Hacks to fix IE font-size so it can scroll fluidly */
+*:first-child+html body {
+    font-size: small;
+}
+
+* html body {
+    font-size: small;
+}
+
+
+/* Misc Elements */
+
+
+
+img {
+    border: none;
+}
+
+
+/* Page Header */
+
+
+/* Note that the logo is 164x174 */
+
+#header {
+    padding: 0 0 1.5em 184px; /* Left pad to allow room for logo and elbow room */
+    height: 174px;
+}
+
+#logo {
+    position: absolute;
+    margin-left: -184px; /* Occupy reserved space */
+    width: 164px;
+    height: 174px;
+    background: url(logo.gif) no-repeat;
+}
+
+#logo a {
+    display: block;
+    padding: 174px 0 0 0;
+    overflow: hidden;
+    height: 0;
+}
+
+#logo a:hover {
+    background: none; /* Be sure bg yellow hovers don't effect logo */
+}
+
+
+/* Header Island (The curvy gradient part on the right) */
+
+
+#header_island {
+    position: relative;
+    height: 33px;
+    overflow: hidden;
+    background: var(--island-bg, #fff) url(header_island_bg.png);
+    top: 2px;
+    margin-bottom: 17px;
+}
+
+#header_island a {
+    position: relative; 
+    height: 33px; /* Fill out size of island */
+    color: var(--island-link, #00c); /* Slightly darker to fit better with gradient */
+    font-weight: bold;
+    font-size: .846em;
+}
+
+
+/* Island Sections */
+
+
+#about, #search form, #search_help {
+    line-height: 33px; /* Align to vertical middle */
+}
+
+#about {
+    float: left;
+    padding-left: 16px;
+    background: url(header_island_left.png) left top no-repeat;
+}
+
+#search {
+    float: right;
+    text-align: right;
+}
+
+#search form {
+	display: block; /* fix for vBulletin... */
+    padding-right:30px ;
+}
+
+* html #search form {
+    padding-top: 4px; /* fix vertical align problem... kinda */
+}
+
+#search_help {
+    float: right;
+    padding-right: 16px;
+    background: url(header_island_right.png) right top no-repeat;
+}
+
+
+/* Breadcrumbs */
+
+
+#top_breadcrumbs {
+    padding: 0 0 7px 15px;
+    border-bottom: 1px solid var(--rule, #b8b8db);
+    margin-bottom: 10px;
+    font-size: .846em;
+}
+
+#top_breadcrumbs a {
+    font-weight: bold;
+}
+
+
+/* ADS! */
+
+
+#top_banner {
+    text-align: center;
+}
+
+
+
+/* BODY AND CONTENT */
+
+
+#body {
+    padding-bottom: .5em;
+}
+
+#body:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+* html #body {
+    height: 1px;
+}
+
+*:first-child+html #body {
+    display:inline-block;
+}
+
+
+/* NAVIGATION */
+
+
+/*
+When navigation is present, #navigation is the left side of the splitter table
+and #content is the right side. The table is called #splitter.
+*/
+
+#splitter {
+}
+
+#navigation, #content {
+    vertical-align: top;
+}
+
+#navigation {
+    width: 1px;
+    padding: 0 1.5em 0 0;
+    border-right: 1px solid var(--rule, #b8b8db);
+}
+
+#navigation dl {
+    padding: 0;
+    margin: 0;
+}
+
+#navigation dt {
+    margin: 0 0 .3em 0;
+    white-space: nowrap;
+}
+
+#navigation dd  {
+    padding: .3em 0 0 0;
+    margin: 0 0 0 .7em;
+}
+
+#navigation dd strong {
+    font-weight: normal;
+    margin-left: -.7em; /* Push the arrow back a little bit */
+    padding-left: 20px; /* Make room for arrow */
+    margin-right: 20px; /* But don't hog right border */
+    background: url(go_arrow.png) no-repeat left;
+    white-space: nowrap;
+    zoom: 1; /* IE screws up position without this */
+}
+
+#content {
+
+}
+
+/* Hack for Internet Explorer... */
+#content_wrapper {
+    padding-left:1.5em;
+}
+
+
+/* Footer */
+
+
+#footer {
+    padding: 1em 0;
+    font-size: .846em;
+    text-align: center;
+    border-top: 1px solid var(--rule, #b8b8db);
+}

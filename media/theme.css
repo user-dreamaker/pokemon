@@ -1,0 +1,198 @@
+
+/************* theme.css ***************
+
+Light and dark themes for the whole site.
+
+Dark is the default and lives in :root, so a page still looks right if
+JavaScript never runs or this file fails to load. Light is opt-in through the
+data-theme attribute that theme.js sets in <head> before the first paint.
+
+The other stylesheets now declare every themed colour as
+var(--token, <original light value>), so the fallbacks reproduce the original
+look if this file is missing.
+
+***************************************/
+
+/* Tokens                                   */
+
+:root {
+    color-scheme: dark;
+
+    --frame:        #17172b;   /* page background behind the body */
+    --body-bg:      #1e1e33;
+    --fg:           #e8e8f2;
+    --island-bg:    #26263f;
+    --island-link:  #a8c4ff;
+    --rule:         #3d3d63;   /* hairline separators */
+    --link:         #7fb0ff;
+    --muted:        #a9a9c9;
+    --line:         #4b4b76;   /* generic border */
+    --soft-border:  #4b4b76;
+    --tbl-border:   #4b4b76;   /* table grid */
+    --th-bg:        #5f5fb8;
+    --th-fg:        #ffffff;
+    --th-pulse:     #3e3e77;   /* dimmed end of the ability-highlight pulse */
+    --row-even:     #1e1e33;
+    --row-odd:      #26263f;
+    --row-alt:      #33335e;   /* neutral zebra used by the type chart */
+    --cell-alt:     #2b2b4a;   /* description / tooltip panels */
+    --cell-alt-fg:  #d6d6ea;
+    --cap-rule:     #5a5a85;   /* inner sprite borders */
+    --panel:        #26263f;
+    --panel-line:   #4b4b76;
+    --chip:         #26263f;
+    --hl:           #6f6f2a;   /* hover highlight */
+    --hl-fg:        #f2f2d8;
+    --code-bg:      #26263f;
+    --chart-rule:   #666;   /* type chart grid; distinct from --cap-rule */
+    --danger:       #ff7b7b;
+    --warn:         #ffb454;
+}
+
+html[data-theme="light"] {
+    color-scheme: light;
+
+    --frame:        #6363b0;
+    --body-bg:      #fff;
+    --fg:           #000;
+    --island-bg:    #fff;
+    --island-link:  #00c;
+    --rule:         #b8b8db;
+    --link:         #00f;
+    --muted:        #666;
+    --line:         #aaa;
+    --soft-border:  #ccc;
+    --tbl-border:   #000;
+    --th-bg:        #6363B0;
+    --th-fg:        #fff;
+    --th-pulse:     #46468a;   /* dimmed end of the ability-highlight pulse */
+    --row-even:     #fff;
+    --row-odd:      #ccf;
+    --row-alt:      #ededed;
+    --cell-alt:     #E4E4FF;
+    --cell-alt-fg:  #333333;
+    --cap-rule:     #888888;
+    --panel:        #E1E4F2;
+    --panel-line:   #9696CA;
+    --chip:         #efefef;
+    --hl:           #FFFF80;
+    --hl-fg:        #000;
+    --code-bg:      #f6f6f6;
+    --chart-rule:   #666;
+    --danger:       #C00;
+    --warn:         #CC6600;
+}
+
+/* Decorative artwork                      */
+
+/* The template ships light artwork: a pale cyan band across the top of the
+   body and the rounded caps of the header island. Both would glare against a
+   dark background, so the dark theme drops them for flat colour. The light
+   theme puts them back. Note these urls are relative to this stylesheet, same
+   as in global.css. */
+
+html {
+    background-image: none;
+    background-color: var(--frame);
+}
+
+body {
+    background-image: none;
+    background-color: var(--body-bg);
+    color: var(--fg);
+}
+
+#header_island, #about, #search_help {
+    background-image: none;
+}
+
+html[data-theme="light"] {
+    background-image: url(bg.png);
+}
+
+html[data-theme="light"] body {
+    background-image: url(bg_top.png);
+}
+
+html[data-theme="light"] #header_island {
+    background-image: url(header_island_bg.png);
+}
+
+html[data-theme="light"] #about {
+    background-image: url(header_island_left.png);
+}
+
+html[data-theme="light"] #search_help {
+    background-image: url(header_island_right.png);
+}
+
+/* The tables and panels pull their colours from tokens already; these few
+   rules only cover what the original stylesheets cannot express as a variable
+   because the value sat in a shorthand next to an image. */
+
+table.info th {
+    background-image: none;
+    background-color: var(--th-bg);
+    color: var(--th-fg);
+}
+
+table.sortable tr .header {
+    background-image: none;
+}
+
+.capart_thumbGroup:hover {
+    background-color: var(--hl);
+}
+
+/* Theme toggle                           */
+
+#search_help .themeToggle {
+    font: bold 16px/1 Verdana, sans-serif;
+    color: #2a2a5e;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, .55);
+    border-radius: 10px;
+    padding: 3px 9px 4px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#search_help .themeToggle:hover {
+    background: rgba(255, 255, 255, .3);
+}
+
+#search_help .themeToggle:focus-visible {
+    outline: 2px solid #2a2a5e;
+    outline-offset: 1px;
+}
+
+/* In the dark theme the island is dark, so the toggle needs light ink. */
+:root #search_help .themeToggle {
+    color: #f0f0ff;
+    border-color: rgba(255, 255, 255, .35);
+}
+
+:root #search_help .themeToggle:hover {
+    background: rgba(255, 255, 255, .12);
+}
+
+html[data-theme="light"] #search_help .themeToggle {
+    color: #2a2a5e;
+    border-color: rgba(42, 42, 94, .45);
+}
+
+html[data-theme="light"] #search_help .themeToggle:hover {
+    background: rgba(42, 42, 94, .12);
+}
+
+/* Small niceties                          */
+
+::selection {
+    background: var(--th-bg);
+    color: #fff;
+}
+
+/* The sprite pair divider was #999, a mid grey that vanishes on dark. */
+div.spritePair img.shiny {
+    border-left-color: var(--cap-rule);
+}

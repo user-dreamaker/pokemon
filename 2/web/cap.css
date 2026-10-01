@@ -1,0 +1,596 @@
+
+/* Index Table style */
+
+
+table.capindex {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: solid var(--tbl-border, #000);
+    border-width: 1px;
+}
+
+table.capindex td, table.capindex th {
+    border: solid var(--tbl-border, #000);
+}
+
+table.capindex th {
+    border-width: 1px;
+    background: var(--th-bg, #6363b0);
+    color: var(--th-fg, #fff);
+    font-size: .846em;
+    text-align: left;
+    padding: .5em;
+    white-space: nowrap;
+} 
+
+table.capindex td {
+    padding: .3em;
+    border-width: 1px 1px;
+}
+
+/* The evolution line sits in the sub-row under the Pokemon, centred like the
+   rest of the row, and in the same column as the name. It uses Trebuchet MS
+   instead of the Verdana the table runs on, a touch larger than the names, so
+   the line reads before the numbers above it. The condition that produces each
+   member and its arrow are dimmed; the bracketed names carry the colour.
+   One line's worth of height is reserved for every sub-row, so a species with
+   no evolution line still takes up the same space as one that has a path. */
+table.capindex td.desc {
+    background-color: var(--cell-alt, #e4e4ff);
+    text-align: center;
+    height: 1.85em;
+}
+
+/* The evolution chain borrows the dex-number and type columns, and with
+   table-layout: auto that made this one grow to the width of the longest chain,
+   stretching the whole table. Pinning it keeps the column as it was and hands
+   the room to the chain instead. */
+table.capindex td.dexNo {
+    width: 3.4em;
+}
+
+table.capindex td.evoCell {
+    text-align: center;
+    padding: .25em .4em;
+    white-space: normal;
+}
+
+/* .85em, the same scale the table headers use, so a long branch still fits the
+   name column instead of wrapping to three lines. */
+table.capindex td.evoCell .evoChain {
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    font-size: .85em;
+    line-height: 1.55;
+    letter-spacing: .1px;
+}
+
+table.capindex td.evoCell .evoPath {
+    display: inline;
+}
+
+/* One space each side of the bar. A condition that follows the bar drops its
+   own left padding (see .evoViaSep), so "|" reads as one separator rather than
+   the two gaps it used to add up to. */
+table.capindex td.evoCell .evoSep {
+    color: var(--muted);
+    padding: 0 .2em;
+}
+
+table.capindex td.evoCell .evoName {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+table.capindex td.evoCell .evoName:hover {
+    text-decoration: underline;
+}
+
+table.capindex td.evoCell .evoVia {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    padding: 0 .15em 0 .32em;
+}
+
+table.capindex td.evoCell .evoViaSep {
+    padding-left: 0;
+}
+
+table.capindex td.evoCell .evoArrow {
+    color: var(--muted);
+    padding-right: .25em;
+}
+
+/* Abilities sit at the right of the sub-row, in the space the evolution line
+   leaves over. They read as small tags so they do not compete with the line. */
+table.capindex td.abCell {
+    text-align: right;
+    padding: .25em .6em;
+    font-size: .9em;
+    white-space: nowrap;
+}
+
+table.capindex td.abCell .abWrap {
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+table.capindex td.abCell .abLink {
+    display: inline-block;
+    border: 1px dashed var(--soft-border, #4b4b76);
+    border-radius: 3px;
+    padding: 0 .4em;
+    text-decoration: none;
+}
+
+table.capindex td.abCell .abLink:hover {
+    border-style: solid;
+    background-color: var(--th-bg, #5f5fb8);
+    color: var(--th-fg, #fff);
+}
+
+table.capindex td.abCell .abPlain {
+    color: var(--muted);
+    border: 1px dotted var(--line, #4b4b76);
+    border-radius: 3px;
+    padding: 0 .4em;
+}
+
+table.capindex td.abCell .abOr {
+    color: var(--muted);
+    padding: 0 .3em;
+}
+
+/* The gender sign is thin and small next to Verdana, so it carries its own
+   size and weight instead of being left to the surrounding font. */
+.genderSign {
+    font-size: 1.25em;
+    font-weight: 700;
+    vertical-align: -0.06em;
+    padding-left: .04em;
+}
+
+/* Landing on an ability row from the index: the name cell gets the dashed
+   outline and a permanent pulse, in the table header's indigo rather than the
+   old olive, and nothing else on the row changes.
+   The pulse dips to --th-pulse, a dimmer step of the same indigo, not to
+   --cell-alt: in the light theme that is near-white, and the text here is
+   --th-fg (white), so the cell went blank halfway through every pulse.
+   There is deliberately no tr:has() rule here. The abilities table has stray
+   </tr> tags, so the browser nests its rows inside the outer #splitter layout
+   row, and any "tr:has(td:target) td" matches that layout row instead of the
+   ability row -- which tints the whole page. */
+#content td:target {
+    outline: 2px dashed var(--th-fg, #fff);
+    outline-offset: -3px;
+    background-color: var(--th-bg, #5f5fb8);
+    color: var(--th-fg, #fff);
+    animation: abilityPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes abilityPulse {
+    0%, 100% { background-color: var(--th-bg, #5f5fb8); }
+    50% { background-color: var(--th-pulse, #3e3e77); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #content td:target {
+        animation: none;
+    }
+}
+
+
+/* Front Page style */
+
+#capfront_textArea {
+margin: 0 3em;
+}
+
+#capfront_headingArea {
+margin: 0 5em 2em;
+}
+#capfront_headingArea h2 {
+margin: 0;
+}
+#capfront_headingArea p {
+font-size: 0.85em;
+font-style: italic;
+}
+
+#capfront_newcomers {
+background-color: var(--cell-alt, #e4e4ff);
+border: 2px solid var(--line, #6363b0);
+padding: 0.5em 0 0;
+}
+
+#capfront_linksArea {
+}
+#capfront_linksTable {
+border: 1px solid var(--line, #aaaaaa);
+width: 100%;
+}
+#capfront_linksTable td {
+vertical-align: top;
+padding: 1em 1em 0;
+width: 50%;
+}
+#capfront_linksTable td.leftSide {
+border-right: 1px solid var(--line, #aaaaaa);
+}
+#capfront_linksTable td.bottomCell {
+padding-bottom: 1em;
+}
+#capfront_linksTable dl {
+margin: 0px;
+padding: 0px;
+}
+#capfront_linksTable dt {
+font-size: 110%;
+background: 
+    transparent 
+    url(media/bullet_blue.png)/*tpa=http://cap.smogon.com/web/media/bullet_blue.png*/ 
+    no-repeat 
+    scroll 
+    bottom left;
+margin: 0px;
+padding: 0px 0px 0px 17px;
+}
+#capfront_linksTable dd {
+font-size: 0.85em;
+font-style: italic;
+padding: 2px 0 0 18px;
+}
+
+#capfront_footerTable {
+margin-top: 0;
+width: 100%;
+}
+#capfront_footerTable td {
+font-size: 0.85em;
+width: 50%;
+}
+#capfront_footerTable td.leftSide {
+text-align: left;
+padding: 0 0 0 5px;
+/*border-right: 1px solid var(--line, #aaaaaa);*/
+}
+#capfront_footerTable td.rightSide {
+text-align: right;
+padding: 0 5px 0 0;
+}
+
+/* Gallery style */
+
+.capart_pageTop {
+margin-bottom: 2em;
+}
+.capart_pageTop h1{
+margin-bottom: 0.5em;
+}
+.capart_section {
+clear: both;
+}
+.capart_sectionHeader{
+border-top: 1px solid var(--line, #aaaaaa);
+border-bottom: 1px solid var(--line, #aaaaaa);
+}
+.capart_sectionFooter {
+clear: both;
+}
+.capart_linkBox {
+float: left;
+border: 1px solid black;
+margin-right: 2em;
+margin-bottom: 2em;
+padding: 1px;
+text-align: center;
+}
+.capart_linkBoxInfo {
+border: 1px solid var(--line, #6363b0);
+margin-top: 2px;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow: hidden;
+}
+.capart_thumbGroup {
+position: relative;
+background-color: var(--cell-alt, #e4e4ff);
+border: 1px solid var(--line, #6363b0);
+width: 112px;
+height: 105px;
+}
+.capart_thumbGroupInfo {
+width: 112px;
+}
+.capart_thumbGroup:hover {
+background-color: var(--hl, #ffff80);
+}
+.capart_thumb {
+border: 1px solid var(--cap-rule, #888888);
+position: absolute;
+width: 50px;
+height: 50px;
+background-color: transparent;
+backgrount-repeat: no-repeat;
+}
+.capart_navBar {
+clear:both;
+border-top: 1px solid var(--line, #aaaaaa);
+border-bottom: 1px solid var(--line, #aaaaaa);
+margin-bottom: 2em;
+}
+.capart_navTable {
+width: 100%;
+margin: 2px 0px;
+}
+.capart_navTable td {
+width: 33.33%;
+}
+.capart_navTable td.leftNav {
+text-align: left;
+padding: 0 0 0 5px;
+}
+.capart_navTable td.middleNav {
+text-align: center;
+font-size: 110%;
+font-weight: bold;
+}
+.capart_navTable img {
+margin-top: 2px;
+}
+.capart_navTable td.rightNav {
+text-align: right;
+padding: 0 5px 0 0;
+}
+.capart_mini {
+border: 1px solid var(--line, #6363b0);
+width: 150px;
+height: 150px;
+background-color: transparent;
+backgrount-repeat: no-repeat;
+}
+.capart_miniInfo {
+background-color: var(--cell-alt, #e4e4ff);
+width: 150px;
+}
+.capart_miniLinkBox:hover {
+background-color: none;
+}
+.capart_spriteBar {
+clear:both;
+border-top: 1px solid var(--line, #aaaaaa);
+border-bottom: 1px solid var(--line, #aaaaaa);
+margin-bottom: 2em;
+padding-top: 0.5em;
+padding-bottom: 0.5em;
+text-align: center;
+font-size: 110%;
+font-weight: bold;
+}
+.capart_spriteGroup_80 {
+position: relative;
+border: none;
+width: 162px;
+height: 165px;
+}
+.capart_sprite_80 {
+border: 1px solid var(--cap-rule, #888888);
+position: absolute;
+width: 80px;
+height: 80px;
+background-color: transparent;
+backgrount-repeat: no-repeat;
+}
+.capart_spriteInfo_80 {
+background-color: var(--cell-alt, #e4e4ff);
+width: 163px;
+}
+.capart_spriteGroup_96 {
+position: relative;
+border: none;
+width: 194px;
+height: 197px;
+}
+.capart_sprite_96 {
+border: 1px solid var(--cap-rule, #888888);
+position: absolute;
+width: 96px;
+height: 96px;
+background-color: transparent;
+backgrount-repeat: no-repeat;
+}
+.capart_spriteInfo_96 {
+    background-color: var(--cell-alt, #e4e4ff);
+    width: 195px;
+}
+
+
+/* Type icons */
+
+
+img.typeIcon {
+    margin: 10px 5px 0 0;
+}
+
+/* The badges ship at 48x16 and are used at their natural size. They used to be
+   stretched to 72x24 to match the 128px sprites on the index, which made them
+   visibly soft; the rows are sprite-height either way, so the smaller badge
+   costs no extra space. */
+table.capindex img.typeIcon {
+    width: 48px;
+    height: 16px;
+}
+
+/* Same trick as the sprite column: the index table is width:100%, so without a
+   1% preferred width this column takes the slack and the centred badges end up
+   floating in the middle of it. At 18% the two 48px badges sat in a ~230px
+   column with dead space on both sides. 1% pins it to the badges' own width
+   (~106px plus padding) and passes the slack on. */
+table.capindex td.typeCell {
+    width: 10%;
+    white-space: nowrap;
+}
+
+/* In the dex header the type icons belong right under the name: page.css gives
+   every h1 `margin: 1em 0`, and the icons used to add 10px on top of that. That
+   same rule also reserves 35px on the left for the 16x16 favicon bullet, which
+   left a 19px gap before the name - trimmed here to 6px. */
+#dex_pokemon td.header h1 {
+    margin-bottom: 2px;
+    padding-left: 22px;
+}
+
+#dex_pokemon td.header img.typeIcon {
+    margin: 0 5px 0 0;
+    vertical-align: top;
+}
+
+
+/* Pokemon sprites */
+
+
+/* The index table is width:100%, and the sprite pair is by far its widest
+   content, so the auto table layout would hand this column most of the spare
+   width and leave it padded on both sides. A 1% preferred width plus nowrap
+   pins the column to exactly the pair's width and passes the slack on. */
+td.spriteCell {
+    width: 1%;
+    white-space: nowrap;
+    padding: 0 2px;
+    text-align: center;
+}
+
+/* The front sprites are 64x64 PNGs with a transparent background; they are
+   shown at 128x128, so they must not be smoothed. */
+div.spritePair {
+    display: inline-block;
+    line-height: 0;
+    background: transparent;
+}
+
+div.spritePair img.front {
+    width: 128px;
+    height: 128px;
+    vertical-align: top;
+    image-rendering: pixelated;
+}
+
+/* A gap plus a dashed divider keeps the normal and shiny sprites apart; the
+   border sits on the img's content box, so it is exactly as tall as the art. */
+div.spritePair img.shiny {
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px dashed var(--cap-rule, #999);
+}
+
+/* Icon / favicon / name: the animated icon lives in its own cell in front of
+   the header cell, and the h1 keeps the site's own favicon.png bullet. The
+   1% preferred width keeps this column from absorbing any spare width, which
+   is what used to leave the icon marooned far from the name. icon.png is
+   32x64 - two 32x32 frames stacked - drawn at 2x, hence a 64x128 background
+   and a -64px frame offset. */
+#dex_pokemon td.sprite {
+    width: 1%;
+    white-space: nowrap;
+    padding: 0 0 0 0;
+    vertical-align: middle;
+}
+
+#dex_pokemon span.pokemonIcon {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 64px 128px;
+    image-rendering: pixelated;
+    -webkit-animation: pokemonIconBlink 1.5s steps(1, end) infinite;
+    animation: pokemonIconBlink 1.5s steps(1, end) infinite;
+}
+
+@-webkit-keyframes pokemonIconBlink {
+    0%   { background-position: 0 0; }
+    50%  { background-position: 0 -64px; }
+    100% { background-position: 0 0; }
+}
+
+@keyframes pokemonIconBlink {
+    0%   { background-position: 0 0; }
+    50%  { background-position: 0 -64px; }
+    100% { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #dex_pokemon span.pokemonIcon {
+        -webkit-animation: none;
+        animation: none;
+    }
+}
+
+
+/* Stat bars                             */
+
+
+/* The base value is printed on top of a saturated bar (orange through yellow),
+   so it stays black in both themes. Left to inherit it turned near-white in the
+   dark theme and became unreadable. */
+.statBar {
+    color: #000;
+    text-align: left;
+    padding-left: .3em;
+}
+
+
+/* Move tooltip                          */
+
+
+a.moveTip {
+    color: var(--link, #0000ee);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+div.moveTipBox {
+    position: absolute;
+    display: none;
+    z-index: 100;
+}
+
+table.moveTipTable {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: solid var(--tbl-border, #000);
+    border-width: 1px;
+    background: var(--body-bg, #fff);
+    font-size: .846em;
+}
+
+table.moveTipTable th {
+    border-width: 1px;
+    background: var(--th-bg, #6363b0);
+    color: var(--th-fg, #fff);
+    font-weight: bold;
+    text-align: left;
+    padding: .3em .5em;
+    white-space: nowrap;
+}
+
+table.moveTipTable td {
+    border-width: 1px;
+    padding: .3em .5em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+table.moveTipTable td.moveTipName {
+    font-weight: bold;
+    text-align: left;
+}
+
+table.moveTipTable td.moveTipDesc {
+    text-align: left;
+    white-space: normal;
+    max-width: 24em;
+    font-style: italic;
+    color: var(--cell-alt-fg, #333333);
+    background: var(--cell-alt, #e4e4ff);
+}

@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv=Content-Type content='text/html; charset=utf-8'>
+
+<title>Pokémon by Dreamaker</title>
+<link rel="icon" href="../media/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="../media/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="../media/global.css"/>
+<link rel="stylesheet" type="text/css" href="../media/page.css"/>
+<link rel="stylesheet" type="text/css" href="../2/web/cap.css"/>
+<link rel="stylesheet" type="text/css" href="../media/theme.css"/>
+<script language="JavaScript" src="../media/theme.js"></script>
+<script language="JavaScript" src="../2/web/cap_template.js"/></script>
+<script language="JavaScript" src="../2/web/cap_database.js"/></script>
+<style type="text/css">a {text-decoration: none}</style>
+
+</head>
+<body>
+<div id="header">
+<div id="logo"></div>
+<div id="header_island">
+<div id="about"> <a href="../home.html">Home</a> | <a href="../pokedex/index.html">Pokémon</a> | <a href="../abilities.html">Abilities</a> | <a href="../natures.html">Natures</a> | <a href="../moves.html">Moves</a> | <a href="../types.html">Types</a> | <a href="../items.html">Items</a></div>
+<div id="search_help">
+<button type="button" id="theme-toggle" class="themeToggle" title="Light theme" aria-label="Switch to light theme" data-next-theme="light">&#9774;&#65039;</button>
+</div>
+</div>
+
+<div id="top_breadcrumbs">
+<a href="#">Pokémon by Dreamaker</a> &raquo;
+
+<strong>Pokémon</strong>
+
+</div>
+
+</div>
+  
+<div id="body">
+    
+<table id="splitter">
+<tr>
+<td id="navigation">
+
+<dl>
+<dt>• Menu •</dt>
+  
+<dd>
+<a href="../home.html">Home</a>
+</dd>
+
+<dd>
+<a href="../pokedex/index.html">Pokémon</a>
+</dd>
+
+<dd>
+<a href="../abilities.html">Abilities</a>
+</dd>
+
+<dd>
+<a href="../natures.html">Natures</a>
+</dd>
+
+<dd>
+<a href="../moves.html">Moves</a>
+</dd>
+
+<dd>
+<a href="../types.html">Types</a>
+</dd>
+
+<dd>
+<a href="../items.html">Items</a>
+</dd>
+
+</dl>
+
+</td>
+<td id="content">
+<div id="content_wrapper">
+
+<h1>A Complete Pokémon by Dreamaker PokéDex</h1>
+
+<p>Click in Pokémon name to go to the respective Pokémon page.</p>
+
+<script language="JavaScript">
+var caps = [];
+caps[0] = null;
+caps[1] = new Bulbasaur();
+caps[1].indexDesc = " ";
+caps[2] = new Ivysaur();
+caps[3] = new Venusaur();
+caps[4] = new Charmander();
+caps[5] = new Charmeleon();
+caps[6] = new Charizard();
+caps[7] = new Squirtle();
+caps[8] = new Wartortle();
+caps[9] = new Blastoise();
+caps[10] = new Caterpie();
+caps[11] = new Metapod();
+caps[12] = new Butterfree();
+caps[13] = new Weedle();
+caps[14] = new Kakuna();
+caps[15] = new Beedrill();
+caps[16] = new Pidgey();
+caps[17] = new Pidgeotto();
+caps[18] = new Pidgeot();
+caps[19] = new Rattata();
+caps[20] = new Raticate();
+caps[21] = new Spearow();
+caps[22] = new Fearow();
+caps[23] = new Ekans();
+caps[24] = new Arbok();
+caps[25] = new Pikachu();
+caps[26] = new Raichu();
+caps[27] = new Sandshrew();
+caps[28] = new Sandslash();
+caps[29] = new Nidoran_Female();
+caps[30] = new Nidorina();
+caps[31] = new Nidoqueen();
+caps[32] = new Nidoran_Male();
+caps[33] = new Nidorino();
+caps[34] = new Nidoking();
+caps[35] = new Clefairy();
+caps[36] = new Clefable();
+caps[37] = new Vulpix();
+caps[38] = new Ninetales();
+caps[39] = new Jigglypuff();
+caps[40] = new Wigglytuff();
+caps[41] = new Zubat();
+caps[42] = new Golbat();
+caps[43] = new Oddish();
+caps[44] = new Gloom();
+caps[45] = new Vileplume();
+caps[46] = new Paras();
+caps[47] = new Parasect();
+caps[48] = new Venonat();
+caps[49] = new Venomoth();
+caps[50] = new Diglett();
+caps[51] = new Dugtrio();
+caps[52] = new Meowth();
+caps[53] = new Persian();
+caps[54] = new Psyduck();
+caps[55] = new Golduck();
+caps[56] = new Mankey();
+caps[57] = new Primeape();
+caps[58] = new Growlithe();
+caps[59] = new Arcanine();
+caps[60] = new Poliwag();
+caps[61] = new Poliwhirl();
+caps[62] = new Poliwrath();
+caps[63] = new Abra();
+caps[64] = new Kadabra();
+caps[65] = new Alakazam();
+caps[66] = new Machop();
+caps[67] = new Machoke();
+caps[68] = new Machamp();
+caps[69] = new Bellsprout();
+caps[70] = new Weepinbell();
+caps[71] = new Victreebel();
+caps[72] = new Tentacool();
+caps[73] = new Tentacruel();
+caps[74] = new Geodude();
+caps[75] = new Graveler();
+caps[76] = new Golem();
+caps[77] = new Ponyta();
+caps[78] = new Rapidash();
+caps[79] = new Slowpoke();
+caps[80] = new Slowbro();
+caps[81] = new Magnemite();
+caps[82] = new Magneton();
+caps[83] = new Farfetchd();
+caps[84] = new Doduo();
+caps[85] = new Dodrio();
+caps[86] = new Seel();
+caps[87] = new Dewgong();
+caps[88] = new Grimer();
+caps[89] = new Muk();
+caps[90] = new Shellder();
+caps[91] = new Cloyster();
+caps[92] = new Gastly();
+caps[93] = new Haunter();
+caps[94] = new Gengar();
+caps[95] = new Onix();
+caps[96] = new Drowzee();
+caps[97] = new Hypno();
+caps[98] = new Krabby();
+caps[99] = new Kingler();
+caps[100] = new Voltorb();
+caps[101] = new Electrode();
+caps[102] = new Exeggcute();
+caps[103] = new Exeggutor();
+caps[104] = new Cubone();
+caps[105] = new Marowak();
+caps[106] = new Hitmonlee();
+caps[107] = new Hitmonchan();
+caps[108] = new Lickitung();
+caps[109] = new Koffing();
+caps[110] = new Weezing();
+caps[111] = new Rhyhorn();
+caps[112] = new Rhydon();
+caps[113] = new Chansey();
+caps[114] = new Tangela();
+caps[115] = new Kangaskhan();
+caps[116] = new Horsea();
+caps[117] = new Seadra();
+caps[118] = new Goldeen();
+caps[119] = new Seaking();
+caps[120] = new Staryu();
+caps[121] = new Starmie();
+caps[122] = new Mr_Mime();
+caps[123] = new Scyther();
+caps[124] = new Jynx();
+caps[125] = new Electabuzz();
+caps[126] = new Magmar();
+caps[127] = new Pinsir();
+caps[128] = new Tauros();
+caps[129] = new Magikarp();
+caps[130] = new Gyarados();
+caps[131] = new Lapras();
+caps[132] = new Ditto();
+caps[133] = new Eevee();
+caps[134] = new Vaporeon();
+caps[135] = new Jolteon();
+caps[136] = new Flareon();
+caps[137] = new Porygon();
+caps[138] = new Omanyte();
+caps[139] = new Omastar();
+caps[140] = new Kabuto();
+caps[141] = new Kabutops();
+caps[142] = new Aerodactyl();
+caps[143] = new Snorlax();
+caps[144] = new Articuno();
+caps[145] = new Zapdos();
+caps[146] = new Moltres();
+caps[147] = new Dratini();
+caps[148] = new Dragonair();
+caps[149] = new Dragonite();
+caps[150] = new Mewtwo();
+caps[151] = new Mew();
+caps[152] = new Chikorita();
+caps[153] = new Bayleef();
+caps[154] = new Meganium();
+caps[155] = new Cyndaquil();
+caps[156] = new Quilava();
+caps[157] = new Typhlosion();
+caps[158] = new Totodile();
+caps[159] = new Croconaw();
+caps[160] = new Feraligatr();
+caps[161] = new Sentret();
+caps[162] = new Furret();
+caps[163] = new Hoothoot();
+caps[164] = new Noctowl();
+caps[165] = new Ledyba();
+caps[166] = new Ledian();
+caps[167] = new Spinarak();
+caps[168] = new Ariados();
+caps[169] = new Crobat();
+caps[170] = new Chinchou();
+caps[171] = new Lanturn();
+caps[172] = new Pichu();
+caps[173] = new Cleffa();
+caps[174] = new Igglybuff();
+caps[175] = new Togepi();
+caps[176] = new Togetic();
+caps[177] = new Natu();
+caps[178] = new Xatu();
+caps[179] = new Mareep();
+caps[180] = new Flaaffy();
+caps[181] = new Ampharos();
+caps[182] = new Bellossom();
+caps[183] = new Marill();
+caps[184] = new Azumarill();
+caps[185] = new Sudowoodo();
+caps[186] = new Politoed();
+caps[187] = new Hoppip();
+caps[188] = new Skiploom();
+caps[189] = new Jumpluff();
+caps[190] = new Aipom();
+caps[191] = new Sunkern();
+caps[192] = new Sunflora();
+caps[193] = new Yanma();
+caps[194] = new Wooper();
+caps[195] = new Quagsire();
+caps[196] = new Espeon();
+caps[197] = new Umbreon();
+caps[198] = new Murkrow();
+caps[199] = new Slowking();
+caps[200] = new Misdreavus();
+caps[201] = new Unown();
+caps[202] = new Wobbuffet();
+caps[203] = new Girafarig();
+caps[204] = new Pineco();
+caps[205] = new Forretress();
+caps[206] = new Dunsparce();
+caps[207] = new Gligar();
+caps[208] = new Steelix();
+caps[209] = new Snubbull();
+caps[210] = new Granbull();
+caps[211] = new Qwilfish();
+caps[212] = new Scizor();
+caps[213] = new Shuckle();
+caps[214] = new Heracross();
+caps[215] = new Sneasel();
+caps[216] = new Teddiursa();
+caps[217] = new Ursaring();
+caps[218] = new Slugma();
+caps[219] = new Magcargo();
+caps[220] = new Swinub();
+caps[221] = new Piloswine();
+caps[222] = new Corsola();
+caps[223] = new Remoraid();
+caps[224] = new Octillery();
+caps[225] = new Delibird();
+caps[226] = new Mantine();
+caps[227] = new Skarmory();
+caps[228] = new Houndour();
+caps[229] = new Houndoom();
+caps[230] = new Kingdra();
+caps[231] = new Phanpy();
+caps[232] = new Donphan();
+caps[233] = new Porygon2();
+caps[234] = new Stantler();
+caps[235] = new Smeargle();
+caps[236] = new Tyrogue();
+caps[237] = new Hitmontop();
+caps[238] = new Smoochum();
+caps[239] = new Elekid();
+caps[240] = new Magby();
+caps[241] = new Miltank();
+caps[242] = new Blissey();
+caps[243] = new Raikou();
+caps[244] = new Entei();
+caps[245] = new Suicune();
+caps[246] = new Larvitar();
+caps[247] = new Pupitar();
+caps[248] = new Tyranitar();
+caps[249] = new Lugia();
+caps[250] = new Ho_oh();
+caps[251] = new Celebi();
+//caps[252] = new Azurill();
+//caps[253] = new Wynaut();
+//caps[254] = new Ambipom();
+//caps[255] = new Mismagius();
+//caps[256] = new Honchkrow();
+//caps[257] = new Bonsly();
+//caps[258] = new Mime_Jr();
+//caps[259] = new Happiny();
+//caps[260] = new Munchlax();
+//caps[261] = new Mantyke();
+//caps[262] = new Weavile();
+//caps[263] = new Magnezone();
+//caps[264] = new Lickilicky();
+//caps[265] = new Rhyperior();
+//caps[266] = new Tangrowth();
+//caps[267] = new Electivire();
+//caps[268] = new Magmortar();
+//caps[269] = new Togekiss();
+//caps[270] = new Yanmega();
+//caps[271] = new Leafeon();
+//caps[272] = new Glaceon();
+//caps[273] = new Gliscor();
+//caps[274] = new Mamoswine();
+//caps[275] = new Porygon_Z();
+document.write(composeCAPIndex(caps));
+</script>
+
+</div>
+</td>
+</tr>
+</table>
+</div>
+  
+<div id="footer">
+Pokémon by Dreamaker &copy;
+<br>
+<br>
+<b><a href="https://bio.link/dreamaker">bio.link/dreamaker</a></b>
+<br>
+<br>
+<br>
+</div>
+</body>
+</html>

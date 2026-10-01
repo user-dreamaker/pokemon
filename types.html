@@ -1,0 +1,628 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv=Content-Type content='text/html; charset=utf-8'>
+
+<title>Pokémon by Dreamaker</title>
+<link rel="icon" href="media/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="media/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="media/global.css"/>
+<link rel="stylesheet" type="text/css" href="media/page.css"/>
+<link rel="stylesheet" type="text/css" href="media/theme.css"/>
+<script language="JavaScript" src="media/theme.js"></script>
+<style type="text/css">
+a {text-decoration: none}
+
+/* Type chart */
+table.typechart, table.typetraits {
+    border-spacing: 0;
+    table-layout: fixed;
+}
+table.typechart { width: auto; }
+table.typechart th.typeHead, table.typechart td, table.typechart th.corner {
+    border: 1px solid var(--chart-rule, #666);
+    text-align: center;
+    padding: 0;
+}
+table.typechart th.corner {
+    background: var(--th-bg, #6363B0);
+    color: var(--th-fg, #fff);
+    font-size: .846em;
+    text-align: left;
+    padding: .4em .5em;
+    width: 116px;
+    line-height: 1.3em;
+}
+table.typechart th.corner .axis { display: block; white-space: nowrap; }
+table.typechart th.corner .axis b { color: #c8c8e8; font-weight: bold; }
+table.typechart th.typeHead {
+    color: var(--th-fg, #fff);
+    font-size: .846em;
+    font-weight: bold;
+    vertical-align: bottom;
+    padding: .4em .2em;
+    overflow: hidden;
+}
+/* Widths are declared on the header row because table-layout:fixed sizes the
+   columns from it. 46px fits the longest name ("Electric", "Psychic") at .846em
+   with room to spare, so no label is clipped and all 17 read at one size. */
+table.typechart th.typeHead { width: 46px; }
+table.typechart th.typeHead.rowhead {
+    width: 92px;
+    text-align: right;
+    padding-right: .5em;
+    white-space: nowrap;
+}
+table.typechart td {
+    font-size: .846em;
+    font-weight: bold;
+    width: 46px;
+    height: 24px;
+}
+/* page.css ships `table.sortable tr.odd td { background:#ccf }`, which is
+   (0,2,3) and therefore beats a bare `table.typechart td.xN` (0,2,2) -- the
+   effectiveness colours silently lose on every striped row. Naming .sortable
+   here lifts each cell rule to (0,3,2) so the chart always paints.
+   x0 is #6f6f6f, not #8a8a8a: white "0" on #8a8a8a is only 3.4:1 contrast. */
+/* Light theme keeps the striped rows on the normal-damage cells, in neutral
+   grey. The site stylesheet bands every .sortable row in lavender (#ccccff),
+   which fought the type colours and read as purple here.
+
+   These must stay `background-color`, not the `background` shorthand: the
+   shorthand resets background-image, which wiped the hatch below on the odd
+   rows (whose selector outranks the dark rule below). */
+table.sortable.typechart td.x1  { background-color: var(--row-even, #fff); }
+table.sortable.typechart tr.odd td.x1  { background-color: var(--row-alt, #ededed); }
+table.sortable.typechart td.x2  { background-color: #7bc96f; color: #06330a; }
+table.sortable.typechart td.x05 { background-color: #ff7171; color: #3d0505; }
+table.sortable.typechart td.x0  { background-color: #6f6f6f; color: #fff; }
+
+/* Dark theme instead puts a diagonal hatch on every cell and drops the row
+   banding. Scoped with html:not([data-theme="light"]) rather than :root,
+   because the light theme is an override on the same element - :root matches
+   in both, and a :root rule would also flatten the light zebra. */
+html:not([data-theme="light"]) table.sortable.typechart td {
+    background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, .11) 0 1px,
+        rgba(255, 255, 255, 0) 1px 5px
+    );
+}
+html:not([data-theme="light"]) table.sortable.typechart td.x1,
+html:not([data-theme="light"]) table.sortable.typechart tr.odd td.x1 {
+    background-color: var(--row-even);
+}
+
+.typeLegend { margin: 1em 0; }
+.typeLegend span.chip {
+    display: inline-block;
+    min-width: 1.4em;
+    text-align: center;
+    font-weight: bold;
+    font-size: .846em;
+    border: 1px solid var(--chart-rule, #666);
+    padding: 0 .3em;
+    margin-left: .3em;
+}
+.typeLegend span.chip.x2  { background: #7bc96f; }
+.typeLegend span.chip.x05 { background: #ff7171; }
+.typeLegend span.chip.x0  { background: #6f6f6f; color: #fff; }
+.typeLegend span.chip.x1  { background: var(--row-even, #fff); }
+
+/* Type traits */
+table.typetraits th.typeHead {
+    color: var(--th-fg, #fff);
+    text-align: left;
+    white-space: nowrap;
+}
+table.typetraits td.trait { padding: .5em .7em; }
+table.typetraits { width: auto; }
+
+</style>
+
+</head>
+<body>
+<div id="header">
+<div id="logo"></div>
+<div id="header_island">
+<div id="about"> <a href="index.html">Home</a> | <a href="pokedex/index.html">Pokémon</a> | <a href="abilities.html">Abilities</a> | <a href="natures.html">Natures</a> | <a href="moves.html">Moves</a> | <a href="types.html">Types</a> | <a href="items.html">Items</a></div>
+<div id="search_help">
+<button type="button" id="theme-toggle" class="themeToggle" title="Light theme" aria-label="Switch to light theme" data-next-theme="light">&#9774;&#65039;</button>
+</div>
+</div>
+
+<div id="top_breadcrumbs">
+<a href="#">Pokémon by Dreamaker</a> &raquo;
+
+<strong>Types</strong>
+
+</div>
+
+</div>
+
+<div id="body">
+
+<table id="splitter">
+<tr>
+<td id="navigation">
+
+<dl>
+<dt>• Menu •</dt>
+
+<dd>
+<a href="index.html">Home</a>
+</dd>
+
+<dd>
+<a href="pokedex/index.html">Pokémon</a>
+</dd>
+
+<dd>
+<a href="abilities.html">Abilities</a>
+</dd>
+
+<dd>
+<a href="natures.html">Natures</a>
+</dd>
+
+<dd>
+<a href="moves.html">Moves</a>
+</dd>
+
+<dd>
+<a href="types.html">Types</a>
+</dd>
+
+<dd>
+<a href="items.html">Items</a>
+</dd>
+
+</dl>
+
+</td>
+<td id="content">
+<div id="content_wrapper">
+
+<h3><a name="typechart">Types</a></h3>
+
+<p class="typeLegend">Rows attack, columns defend. <span class="chip x2">2</span> super effective &middot; <span class="chip x05">&frac12;</span> not very effective &middot; <span class="chip x0">0</span> no effect &middot; <span class="chip x1">&nbsp;</span> normal damage</p>
+
+<table class="sortable typechart">
+<thead>
+<tr>
+<th class="corner"><span class="axis">Attacker &#8595;</span><span class="axis">Defender &#8594;</span></th>
+<th class="typeHead" style="background:#A8A77A">Normal</th>
+<th class="typeHead" style="background:#E62829">Fire</th>
+<th class="typeHead" style="background:#3FA129">Grass</th>
+<th class="typeHead" style="background:#2980EF">Water</th>
+<th class="typeHead" style="background:#FAC000">Electric</th>
+<th class="typeHead" style="background:#A6B91A">Bug</th>
+<th class="typeHead" style="background:#A98FF3">Flying</th>
+<th class="typeHead" style="background:#B6A136">Rock</th>
+<th class="typeHead" style="background:#A33EA1">Poison</th>
+<th class="typeHead" style="background:#E2BF65">Ground</th>
+<th class="typeHead" style="background:#3DCEF3">Ice</th>
+<th class="typeHead" style="background:#C22E28">Fighting</th>
+<th class="typeHead" style="background:#EF4179">Psychic</th>
+<th class="typeHead" style="background:#735797">Ghost</th>
+<th class="typeHead" style="background:#5060E1">Dragon</th>
+<th class="typeHead" style="background:#624D4E">Dark</th>
+<th class="typeHead" style="background:#B7B7CE">Steel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#A8A77A">Normal</th>
+<td class="x1 empty" title="Normal on Normal: &times;1"></td>
+<td class="x1 empty" title="Normal on Fire: &times;1"></td>
+<td class="x1 empty" title="Normal on Grass: &times;1"></td>
+<td class="x1 empty" title="Normal on Water: &times;1"></td>
+<td class="x1 empty" title="Normal on Electric: &times;1"></td>
+<td class="x1 empty" title="Normal on Bug: &times;1"></td>
+<td class="x1 empty" title="Normal on Flying: &times;1"></td>
+<td class="x05" title="Normal on Rock: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Normal on Poison: &times;1"></td>
+<td class="x1 empty" title="Normal on Ground: &times;1"></td>
+<td class="x1 empty" title="Normal on Ice: &times;1"></td>
+<td class="x1 empty" title="Normal on Fighting: &times;1"></td>
+<td class="x1 empty" title="Normal on Psychic: &times;1"></td>
+<td class="x0" title="Normal on Ghost: &times;0">0</td>
+<td class="x1 empty" title="Normal on Dragon: &times;1"></td>
+<td class="x1 empty" title="Normal on Dark: &times;1"></td>
+<td class="x05" title="Normal on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#E62829">Fire</th>
+<td class="x1 empty" title="Fire on Normal: &times;1"></td>
+<td class="x05" title="Fire on Fire: &times;0.5">&frac12;</td>
+<td class="x2" title="Fire on Grass: &times;2">2</td>
+<td class="x05" title="Fire on Water: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Fire on Electric: &times;1"></td>
+<td class="x2" title="Fire on Bug: &times;2">2</td>
+<td class="x1 empty" title="Fire on Flying: &times;1"></td>
+<td class="x05" title="Fire on Rock: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Fire on Poison: &times;1"></td>
+<td class="x1 empty" title="Fire on Ground: &times;1"></td>
+<td class="x2" title="Fire on Ice: &times;2">2</td>
+<td class="x1 empty" title="Fire on Fighting: &times;1"></td>
+<td class="x1 empty" title="Fire on Psychic: &times;1"></td>
+<td class="x1 empty" title="Fire on Ghost: &times;1"></td>
+<td class="x05" title="Fire on Dragon: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Fire on Dark: &times;1"></td>
+<td class="x2" title="Fire on Steel: &times;2">2</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#3FA129">Grass</th>
+<td class="x1 empty" title="Grass on Normal: &times;1"></td>
+<td class="x05" title="Grass on Fire: &times;0.5">&frac12;</td>
+<td class="x05" title="Grass on Grass: &times;0.5">&frac12;</td>
+<td class="x2" title="Grass on Water: &times;2">2</td>
+<td class="x1 empty" title="Grass on Electric: &times;1"></td>
+<td class="x05" title="Grass on Bug: &times;0.5">&frac12;</td>
+<td class="x05" title="Grass on Flying: &times;0.5">&frac12;</td>
+<td class="x2" title="Grass on Rock: &times;2">2</td>
+<td class="x05" title="Grass on Poison: &times;0.5">&frac12;</td>
+<td class="x2" title="Grass on Ground: &times;2">2</td>
+<td class="x1 empty" title="Grass on Ice: &times;1"></td>
+<td class="x1 empty" title="Grass on Fighting: &times;1"></td>
+<td class="x1 empty" title="Grass on Psychic: &times;1"></td>
+<td class="x1 empty" title="Grass on Ghost: &times;1"></td>
+<td class="x05" title="Grass on Dragon: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Grass on Dark: &times;1"></td>
+<td class="x05" title="Grass on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#2980EF">Water</th>
+<td class="x1 empty" title="Water on Normal: &times;1"></td>
+<td class="x2" title="Water on Fire: &times;2">2</td>
+<td class="x05" title="Water on Grass: &times;0.5">&frac12;</td>
+<td class="x05" title="Water on Water: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Water on Electric: &times;1"></td>
+<td class="x1 empty" title="Water on Bug: &times;1"></td>
+<td class="x1 empty" title="Water on Flying: &times;1"></td>
+<td class="x2" title="Water on Rock: &times;2">2</td>
+<td class="x1 empty" title="Water on Poison: &times;1"></td>
+<td class="x2" title="Water on Ground: &times;2">2</td>
+<td class="x1 empty" title="Water on Ice: &times;1"></td>
+<td class="x1 empty" title="Water on Fighting: &times;1"></td>
+<td class="x1 empty" title="Water on Psychic: &times;1"></td>
+<td class="x1 empty" title="Water on Ghost: &times;1"></td>
+<td class="x05" title="Water on Dragon: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Water on Dark: &times;1"></td>
+<td class="x1 empty" title="Water on Steel: &times;1"></td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#FAC000">Electric</th>
+<td class="x1 empty" title="Electric on Normal: &times;1"></td>
+<td class="x1 empty" title="Electric on Fire: &times;1"></td>
+<td class="x05" title="Electric on Grass: &times;0.5">&frac12;</td>
+<td class="x2" title="Electric on Water: &times;2">2</td>
+<td class="x05" title="Electric on Electric: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Electric on Bug: &times;1"></td>
+<td class="x2" title="Electric on Flying: &times;2">2</td>
+<td class="x1 empty" title="Electric on Rock: &times;1"></td>
+<td class="x1 empty" title="Electric on Poison: &times;1"></td>
+<td class="x0" title="Electric on Ground: &times;0">0</td>
+<td class="x1 empty" title="Electric on Ice: &times;1"></td>
+<td class="x1 empty" title="Electric on Fighting: &times;1"></td>
+<td class="x1 empty" title="Electric on Psychic: &times;1"></td>
+<td class="x1 empty" title="Electric on Ghost: &times;1"></td>
+<td class="x05" title="Electric on Dragon: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Electric on Dark: &times;1"></td>
+<td class="x1 empty" title="Electric on Steel: &times;1"></td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#A6B91A">Bug</th>
+<td class="x1 empty" title="Bug on Normal: &times;1"></td>
+<td class="x05" title="Bug on Fire: &times;0.5">&frac12;</td>
+<td class="x2" title="Bug on Grass: &times;2">2</td>
+<td class="x1 empty" title="Bug on Water: &times;1"></td>
+<td class="x1 empty" title="Bug on Electric: &times;1"></td>
+<td class="x1 empty" title="Bug on Bug: &times;1"></td>
+<td class="x05" title="Bug on Flying: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Bug on Rock: &times;1"></td>
+<td class="x05" title="Bug on Poison: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Bug on Ground: &times;1"></td>
+<td class="x1 empty" title="Bug on Ice: &times;1"></td>
+<td class="x05" title="Bug on Fighting: &times;0.5">&frac12;</td>
+<td class="x2" title="Bug on Psychic: &times;2">2</td>
+<td class="x05" title="Bug on Ghost: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Bug on Dragon: &times;1"></td>
+<td class="x2" title="Bug on Dark: &times;2">2</td>
+<td class="x05" title="Bug on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#A98FF3">Flying</th>
+<td class="x1 empty" title="Flying on Normal: &times;1"></td>
+<td class="x1 empty" title="Flying on Fire: &times;1"></td>
+<td class="x2" title="Flying on Grass: &times;2">2</td>
+<td class="x1 empty" title="Flying on Water: &times;1"></td>
+<td class="x05" title="Flying on Electric: &times;0.5">&frac12;</td>
+<td class="x2" title="Flying on Bug: &times;2">2</td>
+<td class="x1 empty" title="Flying on Flying: &times;1"></td>
+<td class="x05" title="Flying on Rock: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Flying on Poison: &times;1"></td>
+<td class="x1 empty" title="Flying on Ground: &times;1"></td>
+<td class="x1 empty" title="Flying on Ice: &times;1"></td>
+<td class="x2" title="Flying on Fighting: &times;2">2</td>
+<td class="x1 empty" title="Flying on Psychic: &times;1"></td>
+<td class="x1 empty" title="Flying on Ghost: &times;1"></td>
+<td class="x1 empty" title="Flying on Dragon: &times;1"></td>
+<td class="x1 empty" title="Flying on Dark: &times;1"></td>
+<td class="x05" title="Flying on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#B6A136">Rock</th>
+<td class="x1 empty" title="Rock on Normal: &times;1"></td>
+<td class="x2" title="Rock on Fire: &times;2">2</td>
+<td class="x1 empty" title="Rock on Grass: &times;1"></td>
+<td class="x1 empty" title="Rock on Water: &times;1"></td>
+<td class="x1 empty" title="Rock on Electric: &times;1"></td>
+<td class="x2" title="Rock on Bug: &times;2">2</td>
+<td class="x2" title="Rock on Flying: &times;2">2</td>
+<td class="x1 empty" title="Rock on Rock: &times;1"></td>
+<td class="x1 empty" title="Rock on Poison: &times;1"></td>
+<td class="x05" title="Rock on Ground: &times;0.5">&frac12;</td>
+<td class="x2" title="Rock on Ice: &times;2">2</td>
+<td class="x05" title="Rock on Fighting: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Rock on Psychic: &times;1"></td>
+<td class="x1 empty" title="Rock on Ghost: &times;1"></td>
+<td class="x1 empty" title="Rock on Dragon: &times;1"></td>
+<td class="x1 empty" title="Rock on Dark: &times;1"></td>
+<td class="x05" title="Rock on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#A33EA1">Poison</th>
+<td class="x1 empty" title="Poison on Normal: &times;1"></td>
+<td class="x1 empty" title="Poison on Fire: &times;1"></td>
+<td class="x2" title="Poison on Grass: &times;2">2</td>
+<td class="x1 empty" title="Poison on Water: &times;1"></td>
+<td class="x1 empty" title="Poison on Electric: &times;1"></td>
+<td class="x1 empty" title="Poison on Bug: &times;1"></td>
+<td class="x1 empty" title="Poison on Flying: &times;1"></td>
+<td class="x05" title="Poison on Rock: &times;0.5">&frac12;</td>
+<td class="x05" title="Poison on Poison: &times;0.5">&frac12;</td>
+<td class="x05" title="Poison on Ground: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Poison on Ice: &times;1"></td>
+<td class="x1 empty" title="Poison on Fighting: &times;1"></td>
+<td class="x1 empty" title="Poison on Psychic: &times;1"></td>
+<td class="x05" title="Poison on Ghost: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Poison on Dragon: &times;1"></td>
+<td class="x1 empty" title="Poison on Dark: &times;1"></td>
+<td class="x0" title="Poison on Steel: &times;0">0</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#E2BF65">Ground</th>
+<td class="x1 empty" title="Ground on Normal: &times;1"></td>
+<td class="x2" title="Ground on Fire: &times;2">2</td>
+<td class="x05" title="Ground on Grass: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Ground on Water: &times;1"></td>
+<td class="x2" title="Ground on Electric: &times;2">2</td>
+<td class="x05" title="Ground on Bug: &times;0.5">&frac12;</td>
+<td class="x0" title="Ground on Flying: &times;0">0</td>
+<td class="x2" title="Ground on Rock: &times;2">2</td>
+<td class="x2" title="Ground on Poison: &times;2">2</td>
+<td class="x1 empty" title="Ground on Ground: &times;1"></td>
+<td class="x1 empty" title="Ground on Ice: &times;1"></td>
+<td class="x1 empty" title="Ground on Fighting: &times;1"></td>
+<td class="x1 empty" title="Ground on Psychic: &times;1"></td>
+<td class="x1 empty" title="Ground on Ghost: &times;1"></td>
+<td class="x1 empty" title="Ground on Dragon: &times;1"></td>
+<td class="x1 empty" title="Ground on Dark: &times;1"></td>
+<td class="x2" title="Ground on Steel: &times;2">2</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#3DCEF3">Ice</th>
+<td class="x1 empty" title="Ice on Normal: &times;1"></td>
+<td class="x05" title="Ice on Fire: &times;0.5">&frac12;</td>
+<td class="x2" title="Ice on Grass: &times;2">2</td>
+<td class="x05" title="Ice on Water: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Ice on Electric: &times;1"></td>
+<td class="x1 empty" title="Ice on Bug: &times;1"></td>
+<td class="x2" title="Ice on Flying: &times;2">2</td>
+<td class="x1 empty" title="Ice on Rock: &times;1"></td>
+<td class="x1 empty" title="Ice on Poison: &times;1"></td>
+<td class="x2" title="Ice on Ground: &times;2">2</td>
+<td class="x05" title="Ice on Ice: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Ice on Fighting: &times;1"></td>
+<td class="x1 empty" title="Ice on Psychic: &times;1"></td>
+<td class="x1 empty" title="Ice on Ghost: &times;1"></td>
+<td class="x2" title="Ice on Dragon: &times;2">2</td>
+<td class="x1 empty" title="Ice on Dark: &times;1"></td>
+<td class="x05" title="Ice on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#C22E28">Fighting</th>
+<td class="x2" title="Fighting on Normal: &times;2">2</td>
+<td class="x1 empty" title="Fighting on Fire: &times;1"></td>
+<td class="x1 empty" title="Fighting on Grass: &times;1"></td>
+<td class="x1 empty" title="Fighting on Water: &times;1"></td>
+<td class="x1 empty" title="Fighting on Electric: &times;1"></td>
+<td class="x05" title="Fighting on Bug: &times;0.5">&frac12;</td>
+<td class="x05" title="Fighting on Flying: &times;0.5">&frac12;</td>
+<td class="x2" title="Fighting on Rock: &times;2">2</td>
+<td class="x05" title="Fighting on Poison: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Fighting on Ground: &times;1"></td>
+<td class="x2" title="Fighting on Ice: &times;2">2</td>
+<td class="x1 empty" title="Fighting on Fighting: &times;1"></td>
+<td class="x05" title="Fighting on Psychic: &times;0.5">&frac12;</td>
+<td class="x0" title="Fighting on Ghost: &times;0">0</td>
+<td class="x1 empty" title="Fighting on Dragon: &times;1"></td>
+<td class="x2" title="Fighting on Dark: &times;2">2</td>
+<td class="x2" title="Fighting on Steel: &times;2">2</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#EF4179">Psychic</th>
+<td class="x1 empty" title="Psychic on Normal: &times;1"></td>
+<td class="x1 empty" title="Psychic on Fire: &times;1"></td>
+<td class="x1 empty" title="Psychic on Grass: &times;1"></td>
+<td class="x1 empty" title="Psychic on Water: &times;1"></td>
+<td class="x1 empty" title="Psychic on Electric: &times;1"></td>
+<td class="x1 empty" title="Psychic on Bug: &times;1"></td>
+<td class="x1 empty" title="Psychic on Flying: &times;1"></td>
+<td class="x1 empty" title="Psychic on Rock: &times;1"></td>
+<td class="x2" title="Psychic on Poison: &times;2">2</td>
+<td class="x1 empty" title="Psychic on Ground: &times;1"></td>
+<td class="x1 empty" title="Psychic on Ice: &times;1"></td>
+<td class="x2" title="Psychic on Fighting: &times;2">2</td>
+<td class="x05" title="Psychic on Psychic: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Psychic on Ghost: &times;1"></td>
+<td class="x1 empty" title="Psychic on Dragon: &times;1"></td>
+<td class="x0" title="Psychic on Dark: &times;0">0</td>
+<td class="x05" title="Psychic on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#735797">Ghost</th>
+<td class="x0" title="Ghost on Normal: &times;0">0</td>
+<td class="x1 empty" title="Ghost on Fire: &times;1"></td>
+<td class="x1 empty" title="Ghost on Grass: &times;1"></td>
+<td class="x1 empty" title="Ghost on Water: &times;1"></td>
+<td class="x1 empty" title="Ghost on Electric: &times;1"></td>
+<td class="x1 empty" title="Ghost on Bug: &times;1"></td>
+<td class="x1 empty" title="Ghost on Flying: &times;1"></td>
+<td class="x1 empty" title="Ghost on Rock: &times;1"></td>
+<td class="x1 empty" title="Ghost on Poison: &times;1"></td>
+<td class="x1 empty" title="Ghost on Ground: &times;1"></td>
+<td class="x1 empty" title="Ghost on Ice: &times;1"></td>
+<td class="x1 empty" title="Ghost on Fighting: &times;1"></td>
+<td class="x2" title="Ghost on Psychic: &times;2">2</td>
+<td class="x2" title="Ghost on Ghost: &times;2">2</td>
+<td class="x1 empty" title="Ghost on Dragon: &times;1"></td>
+<td class="x05" title="Ghost on Dark: &times;0.5">&frac12;</td>
+<td class="x05" title="Ghost on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#5060E1">Dragon</th>
+<td class="x1 empty" title="Dragon on Normal: &times;1"></td>
+<td class="x1 empty" title="Dragon on Fire: &times;1"></td>
+<td class="x1 empty" title="Dragon on Grass: &times;1"></td>
+<td class="x1 empty" title="Dragon on Water: &times;1"></td>
+<td class="x1 empty" title="Dragon on Electric: &times;1"></td>
+<td class="x1 empty" title="Dragon on Bug: &times;1"></td>
+<td class="x1 empty" title="Dragon on Flying: &times;1"></td>
+<td class="x1 empty" title="Dragon on Rock: &times;1"></td>
+<td class="x1 empty" title="Dragon on Poison: &times;1"></td>
+<td class="x1 empty" title="Dragon on Ground: &times;1"></td>
+<td class="x1 empty" title="Dragon on Ice: &times;1"></td>
+<td class="x1 empty" title="Dragon on Fighting: &times;1"></td>
+<td class="x1 empty" title="Dragon on Psychic: &times;1"></td>
+<td class="x1 empty" title="Dragon on Ghost: &times;1"></td>
+<td class="x2" title="Dragon on Dragon: &times;2">2</td>
+<td class="x1 empty" title="Dragon on Dark: &times;1"></td>
+<td class="x05" title="Dragon on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#624D4E">Dark</th>
+<td class="x1 empty" title="Dark on Normal: &times;1"></td>
+<td class="x1 empty" title="Dark on Fire: &times;1"></td>
+<td class="x1 empty" title="Dark on Grass: &times;1"></td>
+<td class="x1 empty" title="Dark on Water: &times;1"></td>
+<td class="x1 empty" title="Dark on Electric: &times;1"></td>
+<td class="x1 empty" title="Dark on Bug: &times;1"></td>
+<td class="x1 empty" title="Dark on Flying: &times;1"></td>
+<td class="x1 empty" title="Dark on Rock: &times;1"></td>
+<td class="x1 empty" title="Dark on Poison: &times;1"></td>
+<td class="x1 empty" title="Dark on Ground: &times;1"></td>
+<td class="x1 empty" title="Dark on Ice: &times;1"></td>
+<td class="x05" title="Dark on Fighting: &times;0.5">&frac12;</td>
+<td class="x2" title="Dark on Psychic: &times;2">2</td>
+<td class="x2" title="Dark on Ghost: &times;2">2</td>
+<td class="x1 empty" title="Dark on Dragon: &times;1"></td>
+<td class="x05" title="Dark on Dark: &times;0.5">&frac12;</td>
+<td class="x05" title="Dark on Steel: &times;0.5">&frac12;</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#B7B7CE">Steel</th>
+<td class="x1 empty" title="Steel on Normal: &times;1"></td>
+<td class="x05" title="Steel on Fire: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Steel on Grass: &times;1"></td>
+<td class="x05" title="Steel on Water: &times;0.5">&frac12;</td>
+<td class="x05" title="Steel on Electric: &times;0.5">&frac12;</td>
+<td class="x1 empty" title="Steel on Bug: &times;1"></td>
+<td class="x1 empty" title="Steel on Flying: &times;1"></td>
+<td class="x2" title="Steel on Rock: &times;2">2</td>
+<td class="x1 empty" title="Steel on Poison: &times;1"></td>
+<td class="x1 empty" title="Steel on Ground: &times;1"></td>
+<td class="x2" title="Steel on Ice: &times;2">2</td>
+<td class="x1 empty" title="Steel on Fighting: &times;1"></td>
+<td class="x1 empty" title="Steel on Psychic: &times;1"></td>
+<td class="x1 empty" title="Steel on Ghost: &times;1"></td>
+<td class="x1 empty" title="Steel on Dragon: &times;1"></td>
+<td class="x1 empty" title="Steel on Dark: &times;1"></td>
+<td class="x05" title="Steel on Steel: &times;0.5">&frac12;</td>
+</tr>
+</tbody>
+</table>
+
+<h3><a name="weaknesses">Type traits</a></h3>
+
+<p>Besides the damage multipliers above, some types come with their own
+immunities and stat bonuses.</p>
+
+<table class="sortable typetraits">
+<thead>
+<tr>
+<th class="typeHead">Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#E62829">Fire</th>
+<td class="trait">Fire-type Pokémon cannot become burned.</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#3FA129">Grass</th>
+<td class="trait">Grass-type Pokémon are unaffected by Leech Seed, Poison Powder, Stun Spore, Sleep Powder, and Spore.</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#FAC000">Electric</th>
+<td class="trait">Electric-type Pokémon cannot become paralyzed.</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#A98FF3">Flying</th>
+<td class="trait">Flying-type Pokémon take no damage from Spikes around their side.</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#B6A136">Rock</th>
+<td class="trait">Rock-type Pokémon take no damage from sandstorm, and their Special Defense increases during sandstorm.</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#A33EA1">Poison</th>
+<td class="trait">Poison-type Pokémon cannot become poisoned or badly poisoned.</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#E2BF65">Ground</th>
+<td class="trait">Ground-type Pokémon are unaffected by Thunder Wave and take no damage from Electric-type moves.</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#3DCEF3">Ice</th>
+<td class="trait">Ice-type Pokémon cannot be frozen. During snow, their Defense is increased by 50%.</td>
+</tr>
+<tr class="even">
+<th class="typeHead rowhead" style="background:#735797">Ghost</th>
+<td class="trait">Ghost-type Pokémon cannot be prevented from fleeing by moves that trap the target.</td>
+</tr>
+<tr class="odd">
+<th class="typeHead rowhead" style="background:#B7B7CE">Steel</th>
+<td class="trait">Steel-type Pokémon take no damage from sandstorm, cannot become poisoned or badly poisoned.</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</td>
+</tr>
+</table>
+</div>
+
+<div id="footer">
+Pokémon by Dreamaker &copy;
+<br>
+<br>
+<b><a href="https://bio.link/dreamaker">bio.link/dreamaker</a></b>
+<br>
+<br>
+<br>
+</div>
+</body>
+</html>

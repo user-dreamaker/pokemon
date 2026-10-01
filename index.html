@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv=Content-Type content='text/html; charset=utf-8'>
+
+<title>Pokémon by Dreamaker</title>
+<link rel="icon" href="media/favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="media/favicon.ico" type="image/x-icon"/>
+
+<style type="text/css">
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #17172b;
+}
+#view {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+/* Without scripting there is no way to route, so send the reader to the real
+   homepage instead of showing an empty frame. */
+#fallback {
+    display: none;
+    margin: 0;
+    padding: 3em;
+    color: #e8e8f2;
+    background: #17172b;
+    font: 14px Verdana, sans-serif;
+}
+</style>
+
+</head>
+<body>
+<iframe id="view" src="home.html" title="Pokémon by Dreamaker"></iframe>
+<div id="fallback">
+<p>This page needs JavaScript to keep the address bar fixed.</p>
+<p><a href="home.html">Open Pokémon by Dreamaker</a></p>
+</div>
+
+<script type="text/javascript">
+/*
+ * Constant-address shell.
+ *
+ * The path never changes: the reader stays at <site>/ and the page they are on
+ * lives in the fragment (#/pokedex/charizard.html). The page itself is shown in
+ * a full-window frame.
+ *
+ * A frame rather than a fetch-based router on purpose: Chrome refuses fetch and
+ * XHR for file:// (CORS), which would break the site for anyone opening it from
+ * disk. Frames are same-scheme everywhere, so this behaves identically on the
+ * GitHub Pages URL and on a local copy.
+ *
+ * The frame is cross-origin to this page on file://, so the shell cannot read
+ * where the frame went. Every page carries theme.js, which posts its location
+ * back instead; that works across origins.
+ */
+(function () {
+    var frame = document.getElementById("view");
+    var DEFAULT = "home.html";
+
+    /* The fragment is the only thing we accept as a target: it must be a plain
+       relative path inside the site. Anything with a scheme, a leading slash
+       or a parent hop is rejected outright. */
+    function targetFromHash() {
+        var h = location.hash || "";
+        if (h.charAt(0) === "#") h = h.substring(1);
+        if (h.charAt(0) === "/") h = h.substring(1);
+        if (h === "") return DEFAULT;
+        if (h.indexOf("..") >= 0) return DEFAULT;
+        if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(h)) return DEFAULT;   /* scheme */
+        if (/^[\\/]/.test(h)) return DEFAULT;                      /* absolute */
+        return h;
+    }
+
+    function show(path) {
+        if (frame.getAttribute("src") !== path) {
+            frame.setAttribute("src", path);
+        }
+    }
+
+    show(targetFromHash());
+    window.addEventListener("hashchange", function () {
+        show(targetFromHash());
+    }, false);
+
+    /* The framed page tells us its title (see theme.js), so the tab still names
+       the page you are on. The path it reports is ignored on purpose: the
+       address bar must stay exactly at <site>/, so no fragment is ever added. */
+    window.addEventListener("message", function (event) {
+        var d = event.data;
+        if (!d || d.pkdxNav !== 1 || typeof d.path !== "string") return;
+        if (event.source !== frame.contentWindow) return;
+        if (d.title) {
+            try { document.title = d.title; } catch (e) { }
+        }
+    }, false);
+})();
+</script>
+
+<noscript>
+<script type="text/javascript">
+document.getElementById("view").style.display = "none";
+document.getElementById("fallback").style.display = "block";
+</script>
+</noscript>
+</body>
+</html>
