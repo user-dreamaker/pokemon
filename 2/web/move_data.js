@@ -1,8 +1,3 @@
-/*
- * Move reference data for the move tooltips.
- * Stats come straight from the ROM's gBattleMoves (src/data/battle_moves.h);
- * descriptions and colours from Site/moves.html. Generated - do not edit.
- */
 var MOVE_TYPE_COLORS = {
 	"???": "#68a090",
 	"Bug": "#a8b820",

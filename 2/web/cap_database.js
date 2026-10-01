@@ -1,8 +1,4 @@
-﻿/*
- * This is a script that defines a single function
- * for creating specific instances of CAP pokemon.
- */
-function Bulbasaur() {
+﻿function Bulbasaur() {
 	var cap = new CAP();
 	cap.pokemonName = "Bulbasaur";
 	cap.type1 = "Grass";

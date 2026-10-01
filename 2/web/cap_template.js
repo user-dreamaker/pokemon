@@ -1,12 +1,6 @@
-/*
- * This is the template script for CAP website pages.
- * Javascript objects holds content data, although they may be populated from other .js files.
- * HTML is usually created by calling some form of composeXXXX() method.
- */
 function CAP() {
 	this.pokemonName = "";
-	/* File/sprite name for this Pokemon. Only needed when it cannot be derived
-	 * from pokemonName, e.g. pokemonName "Ho-Oh" lives in ho_oh.html. */
+
 	this.slug = "";
 	this.type1 = "";
 	this.type2 = "";
@@ -113,7 +107,6 @@ function CustomAbility() {
 function lowerAndJoin(aString) {
 	return aString.toLowerCase().replace(" ", "_");
 };
-/* Zero-pads a dex number: dexNumber(1) -> "001", so the index can print #001. */
 function dexNumber(aNumber, aDigits) {
 	var str = "" + aNumber;
 	while (str.length < aDigits) str = "0" + str;
@@ -161,15 +154,10 @@ function getTypeIcon(aType) {
 	return '<img class="typeIcon" src="' + siteBase() + 'types/' +
 	lowerType + '_big.png" alt="' + aType + '" />';
 };
-/* Always two badges, so the index's type column is the same width on every
-   row: a monotype repeats its single type instead of leaving the slot empty. */
 function getTypePair(aCap) {
 	var second = aCap.type2 !== '' ? aCap.type2 : aCap.type1;
 	return getTypeIcon(aCap.type1) + getTypeIcon(second);
 };
-/* --------------------------------------------------------------- evolutions */
-/* Display name per slug, filled on first use: cap_database.js and the caps array
-   are both loaded after this file, so nothing can be resolved at load time. */
 var capNameBySlug = null;
 function capNames() {
 	if (capNameBySlug !== null) return capNameBySlug;
@@ -181,14 +169,6 @@ function capNames() {
 	}
 	return capNameBySlug;
 }
-/* The evolution line for a Pokemon, as links, each member introduced by the
-   condition that produces it:
-     [Bulbasaur] Level 16 > [Ivysaur] Level 32 > [Venusaur]
-   The graph is walked rather than flattened, and a branch is one path per line.
-   Flattening it would read as a straight run and claim Jolteon evolves into
-   Vaporeon, or Slowking into Slowbro on a level-up it never gets. A row shows
-   the whole way in from the root, then one line per way down. Species with no
-   line of their own render nothing. */
 function getEvoChain(aCap) {
 	var self = capSlug(aCap);
 	var root = EVO_MEMBER[self];
@@ -232,9 +212,6 @@ function getEvoChain(aCap) {
 	if (down.length === 0) down.push([]);
 	var out = [];
 	for (var p = 0; p < down.length; p++) {
-		/* The first path spells the whole way in; the later ones pick up from
-		   the Pokemon itself instead of repeating the trunk, which is what
-		   keeps a three-way branch on one line. */
 		var seq = (p === 0) ? trunk.concat(down[p]) : down[p];
 		var bits = [];
 		for (var q = 0; q < seq.length; q++) {
@@ -245,9 +222,6 @@ function getEvoChain(aCap) {
 			if (p === 0 && q === 0) {
 				bits.push(link);
 			} else if (via[slug] !== undefined && via[slug] !== '') {
-				/* A condition right after a "|" needs no left padding of its own:
-				   the bar already spaced itself, and both together read as two
-				   spaces. */
 				bits.push('<span class="evoVia' + ((p > 0 && q === 0) ? ' evoViaSep' : '') + '">' +
 					via[slug] +
 					'</span><span class="evoArrow">&#8594;</span>' + link);
@@ -257,23 +231,14 @@ function getEvoChain(aCap) {
 		}
 		out.push('<span class="evoPath">' + bits.join('') + '</span>');
 	}
-	/* One line: the paths sit side by side, separated by a bar, so a branch
-	   reads as a list of alternatives and never as one path feeding the next. */
 	return '<span class="evoChain">' + out.join('<span class="evoSep">|</span>') + '</span>';
 };
-/* What sits under a Pokemon in the index: its own note when it has a real one,
-   otherwise its evolution line. indexDesc is checked trimmed, because a few
-   species are padded with a single space and that is not a note. */
 function indexDescFor(aCap) {
 	var note = (aCap.indexDesc === undefined || aCap.indexDesc === null)
 		? '' : String(aCap.indexDesc).replace(/^\s+|\s+$/g, '');
 	if (note !== '') return note;
 	return getEvoChain(aCap);
 }
-/* The species' abilities, each linking to its row on abilities.html so the
-   reader lands on it instead of hunting for it. abilities.html only has an
-   anchor for the 77 names it lists, so anything outside that stays plain text
-   rather than becoming a link to nowhere. */
 function abilityAnchor(name) {
 	if (name === undefined || name === null) return '';
 	var text = String(name).replace(/^\s+|\s+$/g, '');
@@ -301,9 +266,6 @@ function abilityLinks(aCap) {
 	if (out.length === 0) return '';
 	return '<span class="abWrap">' + out.join('<span class="abOr">|</span>') + '</span>';
 }
-/* A name's trailing gender sign, wrapped so it can be made legible. The glyph
-   is thin and small next to Verdana, so it gets its own size and weight; the
-   text stays plain text and the link keeps covering the whole name. */
 function displayName(aName) {
 	var text = (aName === undefined || aName === null) ? '' : String(aName);
 	var sign = '';
@@ -315,23 +277,12 @@ function displayName(aName) {
 	if (sign === '') return text;
 	return text + '<span class="genderSign">' + sign + '</span>';
 }
-/* --------------------------------------------------------------- sprites */
-/* Pages sit at two depths: pokedex/<slug>.html and pokedex/moves|strategies/. */
 function siteBase() {
 	var path = (typeof location !== "undefined" && location.pathname != null) ? location.pathname : "/";
 	if (path.indexOf("/pokedex/moves/") >= 0 || path.indexOf("/pokedex/strategies/") >= 0) return "../../";
 	return "../";
 };
-/* The sprite folders spell the two Nidorans the short way, and Unown keeps its
-   28 forms in unown/<letter>/ with the shared palette in unown/ itself. */
 var SPRITE_SLUG = {"nidoran_female": "nidoran_f", "nidoran_male": "nidoran_m", "unown": "unown/x"};
-/* EVO:BEGIN -- generated, do not hand-edit; see gen_evo_js2.py */
-/* Evolution lines, generated from src/data/pokemon/evolution.h.
-   One entry per connected component of the evolution graph, limited to
-   the species this index lists. Each value is a list of explicit edges,
-   [from, to, condition], so the renderer walks the real graph instead of
-   flattening it: a branch must not read as a straight run, or Eevee would
-   look like it evolves into Jolteon. */
 var EVO_LINE = {
 	"abra": [["abra", "kadabra", "Level 16"], ["kadabra", "alakazam", "Trade"]],
 	"bellsprout": [["bellsprout", "weepinbell", "Level 21"], ["weepinbell", "victreebel", "Leaf Stone"]],
@@ -421,8 +372,6 @@ var EVO_LINE = {
 	"zubat": [["zubat", "golbat", "Level 22"], ["golbat", "crobat", "High Friendship"]]
 };
 
-/* Every member points at the line it belongs to, so a middle or final
-   member finds its chain too, not just the root. */
 var EVO_MEMBER = {
 	"abra": "abra",
 	"alakazam": "abra",
@@ -633,11 +582,7 @@ var EVO_MEMBER = {
 	"xatu": "natu",
 	"zubat": "zubat"
 };
-/* EVO:END *//* ABILITY:BEGIN -- generated, do not hand-edit; see add_ability_anchors.py */
-/* The abilities abilities.html actually has an anchor for. The index links
-   only these, so a name the page never listed stays plain text instead of
-   becoming a dead #fragment. The value is the bare anchor, so the link
-   reads abilities.html#overgrow. */
+
 var ABILITY_ANCHOR = {
 	"Air Lock": "air-lock",
 	"Arena Trap": "arena-trap",
@@ -747,10 +692,7 @@ var ABILITY_ANCHOR = {
 	"Technician": "technician",
 	"Tinted Lens": "tinted-lens"
 };
-/* ABILITY:END */
-/* Unown's still is just one arbitrary letter, so its front sprites are the
-   looping GIFs built from all 28 instead. The icon still comes from the letter
-   folder, which is why only the front sprites are remapped here. */
+
 var SPRITE_CYCLE = {"unown": {"front_normal.png": "unown/cycle.gif", "front_shiny.png": "unown/cycle_shiny.gif"}};
 function spriteSlug(cap) {
 	var slug = capSlug(cap);
@@ -762,8 +704,6 @@ function spriteUrl(cap, file) {
 	if (cycle != null && cycle[file] != null) return siteBase() + "2/Sprites/" + cycle[file];
 	return siteBase() + "2/Sprites/" + spriteSlug(cap) + "/" + file;
 };
-/* Every sprite the dex lists exists, so this only guards against a folder being
-   removed later: a broken icon would be worse than an empty cell. */
 function spriteHide(img) {
 	img.style.visibility = "hidden";
 };
@@ -1086,7 +1026,6 @@ function moveRow(i, moveName, odd_even, tableType) {
 	txt += '</tr> \n';
 	return txt;
 };
-/* Moves that are not in MOVE_DATA (custom/CAP moves) stay as plain text. */
 function moveTipLink(moveName) {
 	if (typeof MOVE_DATA === "undefined") return moveName;
 	if (MOVE_DATA[moveName] === undefined) return moveName;
@@ -1174,7 +1113,6 @@ function hideMoveTip() {
 	var box = document.getElementById("moveTipBox");
 	if (box != null) box.style.display = "none";
 };
-/* Delegated on document so it also sees rows written by document.write. */
 function moveTipOver(e) {
 	var anchor = moveTipAnchor(e.target);
 	if (anchor != null) {
@@ -1184,7 +1122,6 @@ function moveTipOver(e) {
 	if (moveTipContains(e.target)) return;
 	hideMoveTip();
 };
-/* The names are anchors only so they look like links; clicking does nothing. */
 function moveTipClick(e) {
 	if (moveTipAnchor(e.target) != null) e.preventDefault();
 };
@@ -1319,9 +1256,6 @@ function composeCAPIndex(caps) {
 		txt += '</tr> \n';
 
 txt += '<tr>' +
-			// The chain also takes the type column and the dex-number column: they
-			// are the only slack next to it, and a branch line is the widest text
-			// in the sub-row.
 			'<td class="desc evoCell" colspan="3">' + indexDescFor(caps[i]) + '</td>' +
 			'<td class="desc abCell" colspan="6">' + abilityLinks(caps[i]) + '</td></tr> \n';
 		if (i < (caps.length - 1)) {
@@ -1329,8 +1263,34 @@ txt += '<tr>' +
 		}
 	}
 	txt += '</table> \n';
+	txt += '<script>fitEvoChains();</script> \n';
 	return txt;
 };
+function fitEvoChains() {
+	if (typeof document === 'undefined' || !document.createRange) return;
+	var all = document.getElementsByTagName('span'), list = [];
+	for (var i = 0; i < all.length; i++) {
+		if (all[i].className && all[i].className.indexOf('evoChain') === 0) list.push(all[i]);
+	}
+	var steps = [0.85, 0.83, 0.81, 0.79, 0.77, 0.75, 0.73, 0.71, 0.69, 0.67, 0.65];
+	for (var j = 0; j < list.length; j++) {
+		var el = list[j];
+		var cell = el.parentNode;
+		if (!cell || cell.nodeName !== 'TD') continue;
+		var view = document.defaultView || window;
+		var base = parseFloat(view.getComputedStyle(cell).fontSize) || 13;
+		el.style.fontSize = '';
+		for (var s = 0; s < steps.length; s++) {
+			el.style.fontSize = (base * steps[s]).toFixed(2) + 'px';
+			var r = document.createRange();
+			r.selectNodeContents(el);
+			var t = r.getBoundingClientRect();
+			var c = cell.getBoundingClientRect();
+			if (t.width < 1 || c.width < 1) continue;
+			if (t.left >= c.left - 0.5) break;
+		}
+	}
+}
 function composeCAPIndex2(caps) {
 	var txt = "";
 	var currentGen = null;
@@ -1488,11 +1448,6 @@ function composeGallerySection(aSection) {
 	txt += '</div> \n';
 	txt += '</div> \n';
 	}
-	/* It's important to leave this footer here, even if it is empty.
-	 * This footer is what "clears" the section, and also gives the section a bottom bounds
-	 * since the section is composed mostly of floating elements. If this footer
-	 * is removed, the section will not have the correct bottom bounds.
-	 */
 	txt += '<div class="capart_sectionFooter"></div> \n';
 	txt += '</div> \n';
 	return txt;

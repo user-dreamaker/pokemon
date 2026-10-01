@@ -1,7 +1,3 @@
-
-/* Index Table style */
-
-
 table.capindex {
     border-spacing: 0;
     border-collapse: collapse;
@@ -28,25 +24,18 @@ table.capindex td {
     border-width: 1px 1px;
 }
 
-/* The evolution line sits in the sub-row under the Pokemon, centred like the
-   rest of the row, and in the same column as the name. It uses Trebuchet MS
-   instead of the Verdana the table runs on, a touch larger than the names, so
-   the line reads before the numbers above it. The condition that produces each
-   member and its arrow are dimmed; the bracketed names carry the colour.
-   One line's worth of height is reserved for every sub-row, so a species with
-   no evolution line still takes up the same space as one that has a path. */
 table.capindex td.desc {
     background-color: var(--cell-alt, #e4e4ff);
     text-align: center;
     height: 1.85em;
 }
 
-/* The evolution chain borrows the dex-number and type columns, and with
-   table-layout: auto that made this one grow to the width of the longest chain,
-   stretching the whole table. Pinning it keeps the column as it was and hands
-   the room to the chain instead. */
 table.capindex td.dexNo {
     width: 3.4em;
+}
+
+table.capindex {
+    --evo-nudge: -38.5px;
 }
 
 table.capindex td.evoCell {
@@ -55,9 +44,10 @@ table.capindex td.evoCell {
     white-space: normal;
 }
 
-/* .85em, the same scale the table headers use, so a long branch still fits the
-   name column instead of wrapping to three lines. */
 table.capindex td.evoCell .evoChain {
+    display: block;
+    position: relative;
+    left: var(--evo-nudge);
     font-family: "Trebuchet MS", "Segoe UI", sans-serif;
     font-size: .85em;
     line-height: 1.55;
@@ -68,9 +58,6 @@ table.capindex td.evoCell .evoPath {
     display: inline;
 }
 
-/* One space each side of the bar. A condition that follows the bar drops its
-   own left padding (see .evoViaSep), so "|" reads as one separator rather than
-   the two gaps it used to add up to. */
 table.capindex td.evoCell .evoSep {
     color: var(--muted);
     padding: 0 .2em;
@@ -101,8 +88,6 @@ table.capindex td.evoCell .evoArrow {
     padding-right: .25em;
 }
 
-/* Abilities sit at the right of the sub-row, in the space the evolution line
-   leaves over. They read as small tags so they do not compete with the line. */
 table.capindex td.abCell {
     text-align: right;
     padding: .25em .6em;
@@ -140,8 +125,6 @@ table.capindex td.abCell .abOr {
     padding: 0 .3em;
 }
 
-/* The gender sign is thin and small next to Verdana, so it carries its own
-   size and weight instead of being left to the surrounding font. */
 .genderSign {
     font-size: 1.25em;
     font-weight: 700;
@@ -149,16 +132,6 @@ table.capindex td.abCell .abOr {
     padding-left: .04em;
 }
 
-/* Landing on an ability row from the index: the name cell gets the dashed
-   outline and a permanent pulse, in the table header's indigo rather than the
-   old olive, and nothing else on the row changes.
-   The pulse dips to --th-pulse, a dimmer step of the same indigo, not to
-   --cell-alt: in the light theme that is near-white, and the text here is
-   --th-fg (white), so the cell went blank halfway through every pulse.
-   There is deliberately no tr:has() rule here. The abilities table has stray
-   </tr> tags, so the browser nests its rows inside the outer #splitter layout
-   row, and any "tr:has(td:target) td" matches that layout row instead of the
-   ability row -- which tints the whole page. */
 #content td:target {
     outline: 2px dashed var(--th-fg, #fff);
     outline-offset: -3px;
@@ -177,9 +150,6 @@ table.capindex td.abCell .abOr {
         animation: none;
     }
 }
-
-
-/* Front Page style */
 
 #capfront_textArea {
 margin: 0 3em;
@@ -227,7 +197,7 @@ padding: 0px;
 font-size: 110%;
 background: 
     transparent 
-    url(media/bullet_blue.png)/*tpa=http://cap.smogon.com/web/media/bullet_blue.png*/ 
+    url(media/bullet_blue.png)
     no-repeat 
     scroll 
     bottom left;
@@ -251,14 +221,11 @@ width: 50%;
 #capfront_footerTable td.leftSide {
 text-align: left;
 padding: 0 0 0 5px;
-/*border-right: 1px solid var(--line, #aaaaaa);*/
 }
 #capfront_footerTable td.rightSide {
 text-align: right;
 padding: 0 5px 0 0;
 }
-
-/* Gallery style */
 
 .capart_pageTop {
 margin-bottom: 2em;
@@ -403,37 +370,20 @@ backgrount-repeat: no-repeat;
     width: 195px;
 }
 
-
-/* Type icons */
-
-
 img.typeIcon {
     margin: 10px 5px 0 0;
 }
 
-/* The badges ship at 48x16 and are used at their natural size. They used to be
-   stretched to 72x24 to match the 128px sprites on the index, which made them
-   visibly soft; the rows are sprite-height either way, so the smaller badge
-   costs no extra space. */
 table.capindex img.typeIcon {
     width: 48px;
     height: 16px;
 }
 
-/* Same trick as the sprite column: the index table is width:100%, so without a
-   1% preferred width this column takes the slack and the centred badges end up
-   floating in the middle of it. At 18% the two 48px badges sat in a ~230px
-   column with dead space on both sides. 1% pins it to the badges' own width
-   (~106px plus padding) and passes the slack on. */
 table.capindex td.typeCell {
-    width: 10%;
+    width: 9.4em;
     white-space: nowrap;
 }
 
-/* In the dex header the type icons belong right under the name: page.css gives
-   every h1 `margin: 1em 0`, and the icons used to add 10px on top of that. That
-   same rule also reserves 35px on the left for the 16x16 favicon bullet, which
-   left a 19px gap before the name - trimmed here to 6px. */
 #dex_pokemon td.header h1 {
     margin-bottom: 2px;
     padding-left: 22px;
@@ -444,14 +394,6 @@ table.capindex td.typeCell {
     vertical-align: top;
 }
 
-
-/* Pokemon sprites */
-
-
-/* The index table is width:100%, and the sprite pair is by far its widest
-   content, so the auto table layout would hand this column most of the spare
-   width and leave it padded on both sides. A 1% preferred width plus nowrap
-   pins the column to exactly the pair's width and passes the slack on. */
 td.spriteCell {
     width: 1%;
     white-space: nowrap;
@@ -459,8 +401,6 @@ td.spriteCell {
     text-align: center;
 }
 
-/* The front sprites are 64x64 PNGs with a transparent background; they are
-   shown at 128x128, so they must not be smoothed. */
 div.spritePair {
     display: inline-block;
     line-height: 0;
@@ -474,20 +414,12 @@ div.spritePair img.front {
     image-rendering: pixelated;
 }
 
-/* A gap plus a dashed divider keeps the normal and shiny sprites apart; the
-   border sits on the img's content box, so it is exactly as tall as the art. */
 div.spritePair img.shiny {
     margin-left: 10px;
     padding-left: 10px;
     border-left: 1px dashed var(--cap-rule, #999);
 }
 
-/* Icon / favicon / name: the animated icon lives in its own cell in front of
-   the header cell, and the h1 keeps the site's own favicon.png bullet. The
-   1% preferred width keeps this column from absorbing any spare width, which
-   is what used to leave the icon marooned far from the name. icon.png is
-   32x64 - two 32x32 frames stacked - drawn at 2x, hence a 64x128 background
-   and a -64px frame offset. */
 #dex_pokemon td.sprite {
     width: 1%;
     white-space: nowrap;
@@ -526,22 +458,11 @@ div.spritePair img.shiny {
     }
 }
 
-
-/* Stat bars                             */
-
-
-/* The base value is printed on top of a saturated bar (orange through yellow),
-   so it stays black in both themes. Left to inherit it turned near-white in the
-   dark theme and became unreadable. */
 .statBar {
     color: #000;
     text-align: left;
     padding-left: .3em;
 }
-
-
-/* Move tooltip                          */
-
 
 a.moveTip {
     color: var(--link, #0000ee);
