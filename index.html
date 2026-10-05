@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pokémon by Dreamaker</title>
+<meta name="description" content="Reference for the 251 Pokémon with base stats, types, abilities, moves and items, extracted from the FireRed ROM decompilation project.">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="stylesheet" href="css/styles.css?v=16">
+</head>
+<body>
+
+<aside class="rail" id="rail">
+
+  <a class="rail__logo" href="#/pokemon" title="Pokémon by Dreamaker">
+    <span class="rail__logo-img" aria-hidden="true"></span>
+  </a>
+
+  <div class="rail__sep" aria-hidden="true"></div>
+
+  <nav class="rail__nav" aria-label="Sections">
+    <a href="#/search" data-nav="search" title="Search">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Search</span>
+    </a>
+    <a href="#/pokemon" data-nav="pokemon" title="Pokémon">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Pokémon</span>
+    </a>
+    <a href="#/moves" data-nav="moves" title="Moves">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Moves</span>
+    </a>
+    <a href="#/abilities" data-nav="abilities" title="Abilities">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Abilities</span>
+    </a>
+    <a href="#/items" data-nav="items" title="Items">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Items</span>
+    </a>
+    <a href="#/types" data-nav="types" title="Types">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Types</span>
+    </a>
+    <a href="#/teams" data-nav="teams" title="Teams">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Teams</span>
+    </a>
+    <a href="#/downloads" data-nav="download" title="Download">
+      <span class="navicon" aria-hidden="true"></span>
+      <span>Download</span>
+    </a>
+  </nav>
+
+  <button class="rail__foot" id="theme-toggle" type="button"
+          title="Toggle theme" aria-label="Switch to light theme"></button>
+</aside>
+
+<main class="page" id="page">
+  <div id="view"></div>
+
+  <footer class="pagefoot">
+    <p class="pagefoot__name">Pokémon by Dreamaker</p>
+    <p class="pagefoot__link"><a href="https://bio.link/dreamaker" target="_blank" rel="noopener">bio.link/dreamaker</a></p>
+  </footer>
+</main>
+
+<script src="data/pokedex.js?v=16"></script>
+<script src="data/evolutions.js?v=16"></script>
+<script src="data/moveinfo.js?v=16"></script>
+<script src="data/ivs.js?v=16"></script>
+<script src="data/teams.js?v=16"></script>
+<script src="js/util.js?v=16"></script>
+<script src="js/views.js?v=16"></script>
+<script src="js/app.js?v=16"></script>
+</body>
+</html>
