@@ -1687,11 +1687,9 @@ const hr = el("tr");
     eff.appendChild(def);
     root.appendChild(eff);
 
-    const mons = Dex.data.pokemon.filter(function (p) {
+    const mons = sortPokemon(Dex.data.pokemon.filter(function (p) {
       return p.types.indexOf(t.name) !== -1;
-    }).sort(function (a, b) {
-      return a.label.localeCompare(b.label, "en");
-    });
+    }), "dex", 1);
 
     root.appendChild(el("h2", "tpage__h2", "Pokémon"));
     if (!mons.length) {
