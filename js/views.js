@@ -33,27 +33,30 @@ const Views = (function () {
     root.appendChild(wrap);
   }
 
-    function pokemonTable(list, sort, dir, params, extraClass) {
+    function pokemonTable(list, sort, dir, params, extraClass, keys) {
+    const k = keys || { sort: "sort", dir: "dir" };
     const table = el("table", "ptable ptable--flat" + (extraClass ? " " + extraClass : ""));
 
     const thead = el("thead");
     const hr = el("tr");
     hr.appendChild(el("th", "w-icon"));
     hr.appendChild(sortTh("Pokémon", "name", "w-name", sort, dir, params,
-      "Click to switch between dex number and A-Z"));
+      "Click to switch between dex number and A-Z", k));
     hr.appendChild(el("th", "w-types", "Types"));
     hr.appendChild(el("th", "w-ability w-ability--1", "Ability 1"));
     hr.appendChild(el("th", "w-ability w-ability--2", "Ability 2"));
     STAT_META.forEach(function (s) {
       hr.appendChild(sortTh(s.short, "stats." + s.key, "w-stat", sort, dir, params,
-        "Click to sort by " + s.short));
+        "Click to sort by " + s.short, k));
     });
     thead.appendChild(hr);
     table.appendChild(thead);
 
     const tbody = el("tbody");
     list.forEach(function (p, i) {
-      tbody.appendChild(pokemonRow(p, i));
+      const tr = pokemonRow(p, i);
+      tr.classList.add(i % 2 === 0 ? "is-odd" : "is-even");
+      tbody.appendChild(tr);
     });
     table.appendChild(tbody);
     return table;
@@ -75,7 +78,8 @@ const Views = (function () {
     });
   }
 
-    function sortTh(label, value, className, sort, dir, params, hint) {
+    function sortTh(label, value, className, sort, dir, params, hint, keys) {
+    const k = keys || { sort: "sort", dir: "dir" };
     const th = el("th", "is-sortable " + className, label);
     th.title = hint;
     th.tabIndex = 0;
@@ -89,15 +93,18 @@ const Views = (function () {
       const base = currentHash().split("?")[0] || "#/pokemon";
       if (value === "name") {
 
-        const next = sort === "name"
-          ? { sort: "dex", dir: null }
-          : { sort: "name", dir: null };
+        const next = {};
+        next[k.sort] = sort === "name" ? "dex" : "name";
+        next[k.dir] = null;
         navigate(base + "?" + mergeParams(params, next));
         return;
       }
 
       const nextDir = sort === value ? (dir === -1 ? "less" : "more") : "more";
-      navigate(base + "?" + mergeParams(params, { sort: value, dir: nextDir }));
+      const next = {};
+      next[k.sort] = value;
+      next[k.dir] = nextDir;
+      navigate(base + "?" + mergeParams(params, next));
     };
     th.addEventListener("click", go);
     th.addEventListener("keydown", function (e) {
@@ -141,6 +148,8 @@ const Views = (function () {
     STAT_META.forEach(function (s) {
       tr.appendChild(statCell(s.short, p.stats[s.key] || 0));
     });
+    tr.dataset.search = p.label.replace(/[\u2640\u2642]$/, "").toLowerCase();
+    tr.dataset.id = String(p.id);
     return tr;
   }
 
@@ -696,7 +705,8 @@ const box = el("div", "dsprite");
     return table;
   }
 
-      function movesTable(list, params, parent, countEl) {
+      function movesTable(list, params, parent, countEl, keys) {
+    const k = keys || { sort: "sort", dir: "dir" };
     const bar = el("div", "sortbar");
     const wrap = el("div", "sortbar__group");
     wrap.appendChild(el("span", "sortbar__label", "Search: "));
@@ -711,10 +721,10 @@ const box = el("div", "dsprite");
         const table = el("div", "dextable");
 
     const thead = el("div", "mrow mrow--head");
-        let sortBy = params.get("sort") || "name";
+        let sortBy = params.get(k.sort) || "name";
     if (["name", "dex", "type", "category", "power", "accuracy", "pp"]
       .indexOf(sortBy) < 0) sortBy = "name";
-    let sortDir = params.get("dir") === "more" ? -1 : 1;
+    let sortDir = params.get(k.dir) === "more" ? -1 : 1;
         const base = currentHash().split("?")[0] || "#/moves";
 
     function nextSort(value) {
@@ -732,7 +742,10 @@ const box = el("div", "dsprite");
       const next = nextSort(value);
       sortBy = next.sort;
       sortDir = next.dir === "more" ? -1 : 1;
-      navigate(base + "?" + mergeParams(params, next));
+      const change = {};
+      change[k.sort] = next.sort;
+      change[k.dir] = next.dir;
+      navigate(base + "?" + mergeParams(params, change));
     }
 
     const th = function (cls, text, value, hint) {
@@ -1687,22 +1700,73 @@ const hr = el("tr");
     eff.appendChild(def);
     root.appendChild(eff);
 
-    const mons = sortPokemon(Dex.data.pokemon.filter(function (p) {
+    const mons = Dex.data.pokemon.filter(function (p) {
       return p.types.indexOf(t.name) !== -1;
-    }), "dex", 1);
+    });
+
+    const q = params || new URLSearchParams();
+    // a pagina tem duas tabelas: cada uma usa chaves proprias de sort/dir na URL
+    const pKeys = { sort: "psort", dir: "pdir" };
+    const mKeys = { sort: "msort", dir: "mdir" };
 
     root.appendChild(el("h2", "tpage__h2", "Pokémon"));
     if (!mons.length) {
       root.appendChild(el("div", "empty", "No Pokémon of this type."));
     } else {
-      const wrap = el("div", "tablewrap tablewrap--narrow");
-      const table = el("table", "ptable ptable--flat ptable--typepage");
+      const sort = q.get(pKeys.sort) || "dex";
+      const dir = q.get(pKeys.dir) === "more" ? -1 : 1;
 
-      const tbody = el("tbody");
-      mons.forEach(function (p, i) { tbody.appendChild(pokemonRow(p, i)); });
-      table.appendChild(tbody);
+      const bar = el("div", "sortbar");
+      const group = el("div", "sortbar__group");
+      group.appendChild(el("span", "sortbar__label", "Search: "));
+      const input = el("input", "minisearch");
+      input.type = "search";
+      input.placeholder = "pok\u00e9mon name\u2026";
+      input.value = q.get("q") || "";
+      group.appendChild(input);
+      const count = el("span", "page__count", String(mons.length));
+      group.appendChild(count);
+      bar.appendChild(group);
+      root.appendChild(bar);
+
+      const wrap = el("div", "tablewrap tablewrap--narrow");
+      const table = pokemonTable(sortPokemon(mons, sort, dir), sort, dir, q, "ptable--typepage", pKeys);
       wrap.appendChild(table);
       root.appendChild(wrap);
+
+      const tbody = table.querySelector("tbody");
+      const rows = Array.prototype.slice.call(tbody.rows);
+      const nothing = el("div", "empty");
+      nothing.hidden = true;
+      root.appendChild(nothing);
+
+          function stripe() {
+        let n = 0;
+        rows.forEach(function (tr) {
+          if (tr.hidden) return;
+          tr.classList.toggle("is-odd", n % 2 === 0);
+          tr.classList.toggle("is-even", n % 2 === 1);
+          n++;
+        });
+      }
+
+          function refresh() {
+        const term = input.value.trim().toLowerCase();
+        const digits = term.replace(/\D+/g, "");
+        let visible = 0;
+        rows.forEach(function (tr) {
+          const hit = !term || tr.dataset.search.indexOf(term) !== -1
+            || (digits !== "" && tr.dataset.id.indexOf(digits) === 0);
+          tr.hidden = !hit;
+          if (hit) visible++;
+        });
+        stripe();
+        count.textContent = visible + "/" + rows.length;
+        nothing.textContent = "Nothing found for \u201c" + input.value.trim() + "\u201d";
+        nothing.hidden = !term || visible > 0;
+      }
+      input.addEventListener("input", refresh);
+      refresh();
     }
 
         const moves = Dex.data.moves.filter(function (m) {
@@ -1714,7 +1778,7 @@ const hr = el("tr");
       root.appendChild(el("div", "empty", "No moves of this type."));
       return;
     }
-    movesTable(moves, params, root);
+    movesTable(moves, params, root, null, mKeys);
   }
 
     function effRow(label, names, immune) {
