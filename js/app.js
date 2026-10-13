@@ -3,6 +3,7 @@
   const pagina = document.querySelector(".page");
   const LAYOUT_W = 1280;
   const TEM_ZOOM = !!(window.CSS && CSS.supports && CSS.supports("zoom", "1"));
+  const SEM_ESCALA = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
   let zAtual = 1;
 
   function ajustarAltura() {
@@ -14,8 +15,7 @@
   }
 
   function ajustarLargura() {
-    const largura = window.innerWidth;
-    const z = largura / LAYOUT_W;
+    const z = SEM_ESCALA ? 1 : window.innerWidth / LAYOUT_W;
     zAtual = z;
     document.documentElement.style.setProperty("--z", String(z));
     document.documentElement.style.setProperty("--layout-w", LAYOUT_W + "px");

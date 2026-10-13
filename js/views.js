@@ -1705,7 +1705,6 @@ const hr = el("tr");
     });
 
     const q = params || new URLSearchParams();
-    // a pagina tem duas tabelas: cada uma usa chaves proprias de sort/dir na URL
     const pKeys = { sort: "psort", dir: "pdir" };
     const mKeys = { sort: "msort", dir: "mdir" };
 
