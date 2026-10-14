@@ -681,7 +681,7 @@ const box = el("div", "dsprite");
       line.appendChild(el("div", "mrow__stat mrow__accuracy",
         m.accuracy ? m.accuracy + "%" : "—"));
       line.appendChild(el("div", "mrow__stat mrow__pp", String(m.pp)));
-      line.appendChild(el("div", "mrow__desc", m.description || "—"));
+      line.appendChild(Object.assign(el("div", "mrow__desc", m.description || "—"), { title: m.description || "" }));
 
       line._move = m;
       return line;
@@ -832,7 +832,7 @@ const box = el("div", "dsprite");
       line.appendChild(el("div", "mrow__stat mrow__accuracy",
         m.accuracy ? m.accuracy + "%" : "—"));
       line.appendChild(el("div", "mrow__stat mrow__pp", String(m.pp)));
-      line.appendChild(el("div", "mrow__desc", m.description || "—"));
+      line.appendChild(Object.assign(el("div", "mrow__desc", m.description || "—"), { title: m.description || "" }));
 
       line.dataset.search = (m.label + " " + m.type).toLowerCase();
       line.dataset.type = m.type;
@@ -977,7 +977,7 @@ facts.appendChild(moveFact("Type", Dex.typeBadge(m.type), true));
         link.href = "#/abilities/" + Dex.abilitySlug(a.id);
         nameBox.appendChild(link);
         line.appendChild(nameBox);
-        line.appendChild(el("div", "abrow__desc", a.description || "—"));
+        line.appendChild(Object.assign(el("div", "abrow__desc", a.description || "—"), { title: a.description || "" }));
         line.dataset.search = a.label.toLowerCase();
         table.appendChild(line);
         rows.push(line);
@@ -1084,7 +1084,7 @@ facts.appendChild(moveFact("Type", Dex.typeBadge(m.type), true));
         link.appendChild(inner);
         nameBox.appendChild(link);
         line.appendChild(nameBox);
-        line.appendChild(el("div", "irow__desc", item.description || "—"));
+        line.appendChild(Object.assign(el("div", "irow__desc", item.description || "—"), { title: item.description || "" }));
         line.dataset.search = item.name.toLowerCase();
         line.dataset.pocket = item.pocket;
         table.appendChild(line);
