@@ -1040,7 +1040,7 @@ facts.appendChild(moveFact("Type", Dex.typeBadge(m.type), true));
   }
 
     function itemsIndex(root, params) {
-        const items = Dex.data.items.filter(function (i) { return i.listed; });
+        const items = Dex.data.items.filter(function (i) { return (i.listed || i.id === 154) && i.id !== 150 && i.id !== 184 && i.id !== 185 && i.id !== 155; });
     const head = el("header", "page__head");
     const row = el("div", "page__titlerow");
     row.append(el("h1", "page__title", "Items"),
